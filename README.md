@@ -20,12 +20,16 @@ iwa-project/resources
 
 ## controllers
 iwa-project/app/http/Controllers
+```bash
 php artisan make:controller ControllerName
+```
 [Docs](https://laravel.com/docs/12.x/controllers)
 
 ## models (database information)
 iwa-project/app/http/Models
+```bash
 php artisan make:model ModelName
+```
 [Docs](https://laravel.com/docs/12.x/eloquent)
 
 
