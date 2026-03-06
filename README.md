@@ -2,6 +2,16 @@
 ```bash
 php artisan migrate
 ```
+make a migration 
+```bash
+php artisan make:migration create_[tableName]_table
+```
+wanneer je wilt updaten
+```bash
+php artisan migrate:refresh
+```
+[Docs](https://laravel.com/docs/12.x/migrations)
+
 ## Run
 ```bash
 npm install && npm run build
