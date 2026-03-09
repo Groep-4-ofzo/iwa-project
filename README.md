@@ -67,3 +67,4 @@ php artisan make:model ModelName
 [Docs](https://laravel.com/docs/12.x/eloquent)
 
 
+
