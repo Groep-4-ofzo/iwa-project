@@ -1,4 +1,7 @@
 ## getting stared
+
+maak een copy van de .env.example en geef hem de naam .env 
+
 maak een laravel api key
 ```bash
 php artisan key:generate
