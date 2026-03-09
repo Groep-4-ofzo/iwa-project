@@ -24,15 +24,6 @@ return new class extends Migration
         });
     }
 
-//id INT
-//name VARCHAR(45)
-//description VARCHAR(256)
-//nr_stations INT
-//frequency_in_hours INT
-//frequency_in_days INT
-//continuous TINYINT
-//price_per_station FLOAT
-//valid_through DATE
 
     /**
      * Reverse the migrations.

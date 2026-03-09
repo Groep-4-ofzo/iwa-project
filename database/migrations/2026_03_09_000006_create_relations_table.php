@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('email',100)->nullable();
             $table->string('phone',25)->nullable();
 
-            $table->foreign('company')
+            $table->index('company', 'idx_relation_company_idx');
+            $table->foreign('company', 'fk_relation_company')
                 ->references('id')
                 ->on('companies');
         });

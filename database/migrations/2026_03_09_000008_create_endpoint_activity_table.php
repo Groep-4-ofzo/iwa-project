@@ -21,9 +21,9 @@ return new class extends Migration
             $table->tinyInteger('authorized')->nullable();
             $table->integer('data_transferred')->nullable();
 
-            $table->index('identifier', 'Activity_identifier_idx');
+            $table->index('identifier', 'idx_Activity_identifier');
 
-            $table->foreign('identifier', 'Activity_identifier')
+            $table->foreign('identifier', 'fk_Activity_identifier')
                 ->references('identifier')
                 ->on('subscriptions');
         });

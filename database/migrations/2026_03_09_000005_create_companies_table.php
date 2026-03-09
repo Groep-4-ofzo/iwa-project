@@ -22,11 +22,11 @@ return new class extends Migration
             $table->string('country', 2);
             $table->string('email', 100)->nullable();
             
-            $table->foreign('country')
+            $table->foreign('country', 'fk_company_country')
                 ->references('country_code')
-                ->on('country')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
+                ->on('country');
+            
+            $table->index('country', 'idx_company_country_idx');
 
             $table->charset = 'utf16';
             $table->collation = 'utf16_unicode_ci';

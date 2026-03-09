@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('station', function (Blueprint $table) {
             $table->string('name', 10)->primary();
-            $table->decimal('longitude', 8);
-            $table->decimal('latitude', 8);
-            $table->decimal('elevation', 8);
+            $table->float('longitude');
+            $table->float('latitude');
+            $table->float('elevation');
 
             $table->charset = 'utf16';
             $table->collation = 'utf16_unicode_ci';

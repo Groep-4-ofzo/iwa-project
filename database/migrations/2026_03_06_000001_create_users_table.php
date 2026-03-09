@@ -22,11 +22,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_role'); 
             $table->string('password', 256);
             
-            $table->foreign('user_role')
+            $table->index('user_role', 'idx_role_for_user_idx');
+
+            $table->foreign('user_role', 'fk_role_for_user')
                 ->references('id')
-                ->on('userroles')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
+                ->on('userroles');
 
         });
 

@@ -32,17 +32,19 @@ return new class extends Migration
             $table->string('postcode', 100)->nullable();
             $table->string('country', 100)->nullable();
 
-            $table->foreign('station_name')
-                ->references('name')
-                ->on('station')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
+            $table->index('station_name', 'idx_geolocation_station_name');
+            $table->index('country_code', 'idx_geolocation_country_code');
 
-            $table->foreign('country_code')
+
+            $table->foreign('station_name', 'fk_geolocation_station_name')
+                ->references('name')
+                ->on('station');
+
+
+            $table->foreign('country_code', 'fk_geolocation_country_code')
                 ->references('country_code')
-                ->on('country')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
+                ->on('country');
+
             $table->charset = 'utf16';
             $table->collation = 'utf16_unicode_ci';
 

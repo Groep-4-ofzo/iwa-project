@@ -21,17 +21,18 @@ return new class extends Migration
             $table->string('longitude', 100)->nullable();
             $table->string('latitude', 100)->nullable();
 
-            $table->foreign('station_name')
-                ->references('name')
-                ->on('station')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
+            $table->index('station_name', 'idx_nearestlocation_station_name');
+            $table->index('country_code', 'idx_nearestlocation_country_code');
 
-            $table->foreign('country_code')
+
+            $table->foreign('station_name', 'fk_nearestlocation_station_name')
+                ->references('name')
+                ->on('station');
+
+            $table->foreign('country_code', 'fk_nearestlocation_country_code')
                 ->references('country_code')
-                ->on('country')
-                ->onUpdate('cascade')
-                ->onDelete('restrict');
+                ->on('country');
+                
             $table->charset = 'utf16';
             $table->collation = 'utf16_unicode_ci';
 

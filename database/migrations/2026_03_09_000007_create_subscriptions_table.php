@@ -22,15 +22,15 @@ return new class extends Migration
             $table->string('identifier', 45);
             $table->string('token', 100);
 
-            $table->index('company', 'subscription_company_idx');
-            $table->index('type', 'subscription_type_idx');
-            $table->index('identifier', 'subscription_identifier');
+            $table->index('company', 'idx_subscription_company');
+            $table->index('type', 'idx_subscription_type');
+            $table->index('identifier', 'idx_subscription_identifier');
 
-            $table->foreign('type', 'subscription_type')
+            $table->foreign('type', 'fk_subscription_type')
                 ->references('id')
                 ->on('subscription_types');
 
-            $table->foreign('company', 'subscription_company')
+            $table->foreign('company', 'fk_subscription_company')
                 ->references('id')
                 ->on('companies');
         });
