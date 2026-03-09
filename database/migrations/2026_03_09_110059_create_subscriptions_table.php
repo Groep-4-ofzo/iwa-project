@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->integer('company')->nullable();
-            $table->integer('type')->nullable();
+            $table->unsignedBigInteger('company')->nullable();
+            $table->unsignedBigInteger('type')->nullable();
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->float('price');
@@ -26,23 +26,15 @@ return new class extends Migration
             $table->index('type', 'subscription_type_idx');
             $table->index('identifier', 'subscription_identifier');
 
-            $table->foreign('type')
+            $table->foreign('type', 'subscription_type')
                 ->references('id')
                 ->on('subscription_types');
 
-            $table->foreign('company')
+            $table->foreign('company', 'subscription_company')
                 ->references('id')
                 ->on('companies');
         });
     }
-//id INT
-//identifier VARCHAR(45)
-//endpoint_used VARCHAR(256)
-//files_downloaded INT
-//activity_date DATE
-//activity_time TIME
-//authorized TINYINT
-//data_transferred INT
 
     /**
      * Reverse the migrations.
