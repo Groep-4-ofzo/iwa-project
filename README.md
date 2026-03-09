@@ -1,3 +1,42 @@
+## getting stared
+maak een laravel api key
+```bash
+php artisan key:generate
+```
+daarna:
+```bash
+npm install && npm run build
+```
+```bash
+php artisan migrate
+```
+
+wanneer je wilt updaten
+
+```bash
+php artisan migrate:refresh
+```
+zoek waar php.ini is
+
+'''bash
+php --ini
+'''
+
+zoek naar:
+
+Configuration File (php.ini) Path: /etc/php/8.2/cli
+
+Loaded Configuration File:         /etc/php/8.2/cli/php.ini
+
+
+open het bestand en vink pdo en mysql aan
+
+```bash
+npm install && npm run build
+composer run dev
+```
+
+
 ## Migrate
 ```bash
 php artisan migrate
