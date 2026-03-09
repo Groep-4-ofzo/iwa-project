@@ -1,24 +1,5 @@
 ## getting stared
 
-maak een copy van de .env.example en geef hem de naam .env 
-
-maak een laravel api key
-```bash
-php artisan key:generate
-```
-daarna:
-```bash
-npm install && npm run build
-```
-```bash
-php artisan migrate
-```
-
-wanneer je wilt updaten
-
-```bash
-php artisan migrate:refresh
-```
 zoek waar php.ini is
 
 '''bash
@@ -35,6 +16,7 @@ Loaded Configuration File:         /etc/php/8.2/cli/php.ini
 open het bestand en vink pdo_mysql aan
 
 ```bash
+composer run setup
 npm install && npm run build
 composer run dev
 ```
