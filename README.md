@@ -17,6 +17,7 @@ open het bestand en vink pdo_mysql aan
 
 ```bash
 composer run setup
+mysql -u [je gebruikersnaam in het .env bestand bij de database] -p iwa_project < database_dump/dataDump.sql
 npm install && npm run build
 composer run dev
 ```
