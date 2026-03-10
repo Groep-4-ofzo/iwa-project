@@ -2,9 +2,9 @@
 
 zoek waar php.ini is
 
-'''bash
+```bash
 php --ini
-'''
+```
 
 zoek naar:
 
