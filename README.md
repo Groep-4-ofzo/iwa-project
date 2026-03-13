@@ -1,5 +1,8 @@
 ## getting stared
 
+Installeer composer
+https://getcomposer.org/download/
+
 zoek waar php.ini is
 
 ```bash
