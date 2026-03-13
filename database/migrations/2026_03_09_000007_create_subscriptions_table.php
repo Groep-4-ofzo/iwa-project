@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('end_date')->nullable();
             $table->float('price');
             $table->string('notes', 256)->nullable();
-            $table->string('identifier', 45);
+            $table->string('identifier', 45)->unique();
             $table->string('token', 100);
 
             $table->index('company', 'idx_subscription_company');
