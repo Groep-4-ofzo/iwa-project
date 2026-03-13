@@ -16,7 +16,7 @@ Configuration File (php.ini) Path: /etc/php/8.2/cli
 Loaded Configuration File:         /etc/php/8.2/cli/php.ini
 
 
-open het bestand en vink pdo_mysql, openssl, zip, fileinfo aan
+open het bestand en vink pdo_mysql, openssl, zip, fileinfo,mbstring aan
 
 ```bash
 composer run setup
