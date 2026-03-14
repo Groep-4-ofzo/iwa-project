@@ -35,6 +35,6 @@ class Geolocation extends Model
 
     public function station()
     {
-        return $this->belongsTo(Station::class, 'station');
+        return $this->belongsTo(Station::class, 'station_name');
     }
 }
