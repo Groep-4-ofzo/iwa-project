@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class EndpointActivity extends Model
 {
     //
+    protected $table = 'endpoint_activity';
+
     protected $fillable = [
         'endpoint_used',
         'files_downloaded',

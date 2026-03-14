@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Nearestlocation extends Model
 {
     //
+    protected $table = 'nearestlocation';
     protected $fillable = [
         'name',
         'administrative_region1',

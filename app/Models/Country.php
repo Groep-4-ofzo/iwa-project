@@ -11,6 +11,8 @@ class Country extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    protected $table = 'country';
+
     protected $fillable = [
         'country_code',
         'country'

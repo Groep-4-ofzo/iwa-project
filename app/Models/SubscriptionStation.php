@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SubscriptionStation extends Model
 {
     //
+    protected $table = 'subscription_station';
     public function station()
     {
         return $this->belongsTo(Station::class, 'station');
