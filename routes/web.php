@@ -5,7 +5,6 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\CompareController;
 use App\Http\Controllers\StationController;
 
-Route::get("/test", [TestController::class, "test"])->name("test");
 
 Route::get("/compare", [CompareController::class, "index"])->name("compare");
 Route::post("/compare", [CompareController::class, "compare"]);
