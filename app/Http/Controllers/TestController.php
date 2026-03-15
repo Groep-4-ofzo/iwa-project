@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
-use Illuminate\View\View; 
+use Illuminate\View\View;
 
 class TestController extends Controller{
     public function test(): view {
