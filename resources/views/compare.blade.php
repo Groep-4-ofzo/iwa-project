@@ -25,6 +25,7 @@
     <button type="submit">Vergelijk</button>
 </form>
 
+@isset($station1)
 <h2>Station {{ $station1 }}</h2>
 
 @if(isset($data1))
@@ -39,6 +40,8 @@
 <p>Region: {{ $geo1->region }}</p>
 @endif
 
+@endisset
+@isset($station2)
 <h2>Station {{ $station2 }}</h2>
 
 @if(isset($data2))
@@ -52,6 +55,7 @@
 <p>City: {{ $geo2->city }}</p>
 <p>Region: {{ $geo2->region }}</p>
 @endif
+@endisset
 
 </body>
 </html>
