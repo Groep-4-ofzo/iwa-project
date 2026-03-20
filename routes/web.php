@@ -7,7 +7,7 @@ use App\Http\Controllers\StationController;
 use App\Http\Controllers\Auth\LoginRegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\UserController;
-
+use App\Http\Controllers\SubscriptionController;
 
 Route::get("/compare", [CompareController::class, "index"])->name("compare");
 Route::post("/compare", [CompareController::class, "compare"]);
@@ -42,4 +42,13 @@ Route::middleware(['auth', 'role:Administrator'])->prefix('admin')->group(functi
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+});
+
+Route::middleware(['auth', 'role:Commercieel medewerker,Administrator'])->prefix('admin')->group(function() {
+    Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('admin.subscriptions.index');
+    Route::get('/subscriptions/create', [SubscriptionController::class, 'create'])->name('admin.subscriptions.create');
+    Route::post('/subscriptions', [SubscriptionController::class, 'store'])->name('admin.subscriptions.store');
+    Route::get('/subscriptions/{subscription}/edit', [SubscriptionController::class, 'edit'])->name('admin.subscriptions.edit');
+    Route::put('/subscriptions/{subscription}', [SubscriptionController::class, 'update'])->name('admin.subscriptions.update');
+    Route::delete('/subscriptions/{subscription}', [SubscriptionController::class, 'destroy'])->name('admin.subscriptions.destroy');
 });

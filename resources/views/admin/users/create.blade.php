@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-6">
+        <a href="{{ route('admin.users.index') }}" class="inline-block mb-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+        ← Back
+    </a>
     <div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
         <h1 class="text-xl font-bold mb-4">New User</h1>
 

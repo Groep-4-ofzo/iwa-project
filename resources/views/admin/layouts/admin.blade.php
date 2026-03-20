@@ -28,9 +28,11 @@
                 Users
             </a>
             @endrole
-            @role('Commercieel medewerker')
-
-            @endrole
+            @anyrole('Commercieel medewerker', 'Administrator')
+            <a href="{{ route('admin.subscriptions.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.subscriptions.*') ? 'bg-gray-200 font-semibold' : '' }}">
+                Subscriptions
+            </a>
+            @endanyrole
 
         </nav>
     </aside>
@@ -39,7 +41,11 @@
     <div class="flex-1 flex flex-col">
 
         <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
+        <div>
             <span class="text-gray-700 font-medium">{{ auth()->user()->name ?? 'Admin' }}</span>
+            <span class="text-blue-600 text-sm ml-2">{{ auth()->user()->userRole->role ?? '' }}</span>
+        </div>
+
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">Logout</button>
