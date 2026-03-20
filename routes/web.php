@@ -23,7 +23,6 @@ Route::controller(LoginRegisterController::class)->group(function () {
     Route::middleware(['guest'])->group(function () {
         Route::get('/login', 'login')->name('login');
         Route::post('/authenticate', 'authenticate')->name('authenticate');
-        // Route::get('/make_user', 'make_user')->name('make_user'); // weg halen als je nog geen admin account hebt
         Route::post('/store', 'store')->name('store');
     });
 
