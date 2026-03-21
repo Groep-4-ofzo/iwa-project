@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Subscription extends Model
 {
     //
+    public $timestamps = false;
     protected $table = 'subscriptions';
     protected $fillable = [
         'start_date',
@@ -14,16 +15,18 @@ class Subscription extends Model
         'price',
         'notes',
         'identifier',
-        'token'
+        'token',
+        'company',
+        'type'
     ];
 
-    public function company()
+    public function getCompany() // moet ik nog bespreken
     {
-        return $this->belongsTo(Company::class, 'companies');
+        return $this->belongsTo(Company::class, 'company');
     }
 
     public function subscriptionType()
     {
-        return $this->belongsTo(SubscriptionType::class, 'subscription_types');
+        return $this->belongsTo(SubscriptionType::class, 'type');
     }
 }
