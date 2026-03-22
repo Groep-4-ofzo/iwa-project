@@ -1,5 +1,10 @@
 <?php
 
-use App\Http\Controllers\Generator\GeneratorController;
+use App\Http\Controllers\MeasurementController;
+use Illuminate\Support\Facades\Route;
 
-Route::post("/gen/data/insert", GeneratorController::class->name('insert'));
+
+
+Route::get("/measurement", [MeasurementController::class, "index"]);
+
+Route::post("/measurement", [MeasurementController::class, "store"]);

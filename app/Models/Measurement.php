@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Measurement extends Model
 {
     //
+    public $timestamps = false;
+
     protected $table = 'measurement';
     protected $fillable = [
+        'station',
         'date',
         'time',
         'temperature',
@@ -21,7 +24,7 @@ class Measurement extends Model
         'snow_depth',
         'conditions',
         'cloud_cover',
-        'wind_direction'
+        'wind_direction',
     ];
 
     public function station()
