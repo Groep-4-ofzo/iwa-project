@@ -33,7 +33,11 @@
                 Subscriptions
             </a>
             @endanyrole
-
+            @anyrole('Commercieel medewerker', 'Administrator')
+            <a href="{{ route('admin.subscriptionTypes.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.subscriptionTypes.*') ? 'bg-gray-200 font-semibold' : '' }}">
+                Subscriptions Types
+            </a>
+            @endanyrole
         </nav>
     </aside>
 
