@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fault extends Model
 {
-    public $timestamps = false;
+    protected $table = 'fault';
 
     protected $fillable = [
         'type_fault',
