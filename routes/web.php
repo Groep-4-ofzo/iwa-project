@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SubscriptionTypeController;
+use App\Http\Controllers\SubscriptionStationController;
 
 
 Route::get("/compare", [CompareController::class, "index"])->name("compare");
@@ -63,4 +64,11 @@ Route::middleware(['auth', 'role:Commercieel medewerker,Administrator'])->prefix
     Route::get('/subscriptionTypes/{subscriptionType}/edit', [SubscriptionTypeController::class, 'edit'])->name('admin.subscriptionTypes.edit');
     Route::put('/subscriptionTypes/{subscriptionType}', [SubscriptionTypeController::class, 'update'])->name('admin.subscriptionTypes.update');
     Route::delete('/subscriptionTypes/{subscriptionType}', [SubscriptionTypeController::class, 'destroy'])->name('admin.subscriptionTypes.destroy');
+});
+
+Route::middleware(['auth', 'role:Commercieel medewerker,Administrator'])->prefix('admin')->group(function() {
+    Route::get('/subscriptionStations', [SubscriptionStationController::class, 'index'])->name('admin.subscriptionStations.index');
+    Route::get('/subscriptionStations/{subscription}', [SubscriptionStationController::class, 'show'])->name('admin.subscriptionStations.show');
+    Route::post('/subscriptionStations/{subscription}', [SubscriptionStationController::class, 'store'])->name('admin.subscriptionStations.store');
+    Route::delete('/subscriptionStations/{station}/{subscription}', [SubscriptionStationController::class, 'destroy'])->name('admin.subscriptionStations.destroy');
 });
