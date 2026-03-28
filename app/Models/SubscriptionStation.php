@@ -9,13 +9,15 @@ class SubscriptionStation extends Model
 {
     //
     protected $table = 'subscription_station';
-    public function station()
+    protected $fillable = ['station', 'subscription'];
+    public $timestamps = false;
+    public function getStation()
     {
-        return $this->belongsTo(Station::class, 'station');
+        return $this->belongsTo(Station::class, 'station', 'name');
     }
 
-    public function subscription()
+    public function getSubscription()
     {
-        return $this->belongsTo(Subscription::class, 'subscriptions');
+        return $this->belongsTo(Subscription::class, 'subscription', 'id');
     }
 }
