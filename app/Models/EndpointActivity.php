@@ -9,7 +9,10 @@ class EndpointActivity extends Model
     //
     protected $table = 'endpoint_activity';
 
+    public $timestamps = false;
+
     protected $fillable = [
+        'identifier',
         'endpoint_used',
         'files_downloaded',
         'activity_date',
