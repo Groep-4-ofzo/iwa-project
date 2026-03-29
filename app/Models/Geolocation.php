@@ -30,7 +30,7 @@ class Geolocation extends Model
 
     public function country()
     {
-        return $this->belongsTo(Country::class, 'country');
+        return $this->belongsTo(Country::class, 'country_code', 'country_code');
     }
 
     public function station()
