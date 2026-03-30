@@ -7,6 +7,7 @@ use App\Http\Controllers\StationController;
 use App\Http\Controllers\Auth\LoginRegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\FaultController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SubscriptionTypeController;
 use App\Http\Controllers\SubscriptionStationController;
@@ -45,6 +46,7 @@ Route::middleware(['auth', 'role:Administrator'])->prefix('admin')->group(functi
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+    Route::get('/faults', [FaultController::class, 'index'])->name('admin.faults.index');
 });
 
 Route::middleware(['auth', 'role:Commercieel medewerker,Administrator'])->prefix('admin')->group(function() {

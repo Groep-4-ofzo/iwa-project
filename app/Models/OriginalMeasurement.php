@@ -15,6 +15,6 @@ class OriginalMeasurement extends Model
 
     public function measurement(): BelongsTo
     {
-        return $this->belongsTo(Measurement::class, "corrected_measurement");
+        return $this->belongsTo(Measurement::class, 'corrected_measurement');
     }
 }
