@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\LoggingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CompareController;
@@ -40,6 +41,9 @@ Route::controller(LoginRegisterController::class)->group(function () {
 });
 
 Route::middleware(['auth', 'role:Administrator'])->prefix('admin')->group(function() {
+    Route::get('/logs/user/{user}', [LoggingController::class, 'users'])->name('logs.user');
+    Route::get('/logs/subscription/{subscription}', [LoggingController::class, 'subscriptions'])->name('logs.subscription');
+
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('admin.users.create');
     Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
