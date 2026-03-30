@@ -58,13 +58,6 @@ class MeasurementIngestService
                 $originalMeasurement->save();
 
                 $measurement->temperature = $interpolatedTemperature;
-
-                Log::debug("", [
-                    "invalid_temperature" => $invalidTemperature,
-                    "corrected_measurement" => $measurement->id,
-                    "good_temp" => $measurement->temperature
-                ]);
-
             }
 
             $missingFields = $this->missingFields($measurement);
