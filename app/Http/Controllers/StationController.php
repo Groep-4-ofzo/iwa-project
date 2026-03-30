@@ -9,13 +9,10 @@ class StationController extends Controller
 {
     public function index(string $name)
     {
-        $data = Station::where('name', $name)->first();
+        $data = Station::where("name", $name)->first();
 
-        $geo = Geolocation::where('station_name', $name)->first();
+        $geo = Geolocation::where("station_name", $name)->first();
 
-        return view('station', compact(
-            'data',
-            'geo',
-        ));
+        return view("station", compact("data", "geo"));
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Measurement;
 use Illuminate\Database\Eloquent\Builder;
+use App\Services\MeasurementIngestService;
 use Illuminate\Http\Request;
 
 class MeasurementController extends Controller
@@ -48,50 +49,36 @@ class MeasurementController extends Controller
         return response()->json($query->get());
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validated = $request->validate([
-            'WEATHERDATA' => 'required|array',
+            "WEATHERDATA" => "required|array",
 
-            'WEATHERDATA.*.STN' => 'required',
-            'WEATHERDATA.*.DATE' => 'required',
-            'WEATHERDATA.*.TIME' => 'required',
-            'WEATHERDATA.*.TEMP' => 'required',
-            'WEATHERDATA.*.DEWP' => 'required',
-            'WEATHERDATA.*.STP' => 'required',
-            'WEATHERDATA.*.SLP' => 'required',
-            'WEATHERDATA.*.VISIB' => 'required',
-            'WEATHERDATA.*.WDSP' => 'required',
-            'WEATHERDATA.*.PRCP' => 'required',
-            'WEATHERDATA.*.SNDP' => 'required',
-            'WEATHERDATA.*.FRSHTT' => 'required',
-            'WEATHERDATA.*.CLDC' => 'required',
-            'WEATHERDATA.*.WNDDIR' => 'required',
+            "WEATHERDATA.*.STN" => "required",
+            "WEATHERDATA.*.DATE" => "required",
+            "WEATHERDATA.*.TIME" => "required",
+            "WEATHERDATA.*.TEMP" => "required",
+            "WEATHERDATA.*.DEWP" => "required",
+            "WEATHERDATA.*.STP" => "required",
+            "WEATHERDATA.*.SLP" => "required",
+            "WEATHERDATA.*.VISIB" => "required",
+            "WEATHERDATA.*.WDSP" => "required",
+            "WEATHERDATA.*.PRCP" => "required",
+            "WEATHERDATA.*.SNDP" => "required",
+            "WEATHERDATA.*.FRSHTT" => "required",
+            "WEATHERDATA.*.CLDC" => "required",
+            "WEATHERDATA.*.WNDDIR" => "required",
         ]);
 
-        $weather_data = $validated["WEATHERDATA"];
+        $ingestService = new MeasurementIngestService();
 
-        foreach ($weather_data as $item) {
-            Measurement::create([
-                'station' => $item["STN"],
-                'date' => $item["DATE"],
-                'time' => $item["TIME"],
-                'temperature' => $item["TEMP"],
-                'dewpoint_temperature' => $item["DEWP"],
-                'air_pressure_station' => $item["STP"],
-                'air_pressure_sea_level' => $item["SLP"],
-                'visibility' => $item["VISIB"],
-                'wind_speed' => $item["WDSP"],
-                'percipation' => $item["PRCP"],
-                'snow_depth' => $item["SNDP"],
-                'conditions' => $item["FRSHTT"],
-                'cloud_cover' => $item["CLDC"],
-                'wind_direction' => $item["WNDDIR"],
-            ]);
+        foreach ($validated["WEATHERDATA"] as $item) {
+            $sanitizedItem = array_map(fn($value) => $value === "None" ? null : $value, $item);
+
+            $ingestService->handleOne($sanitizedItem);
         }
 
-        return response()->json([
-            'status' => 'success',
-        ], 201);
+        return response()->json(["status" => "success"], 201);
     }
 
 }
