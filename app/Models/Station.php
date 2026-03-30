@@ -18,4 +18,12 @@ class Station extends Model
       'latitude',
       'elevation'
     ];
+
+    public function geolocation() {
+        return $this->hasMany(Geolocation::class, 'station_name', 'name');
+    }
+
+    public function nearestlocation() {
+        return $this->hasMany(Nearestlocation::class, 'station_name', 'name');
+    }
 }

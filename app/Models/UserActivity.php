@@ -4,15 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EndpointActivity extends Model
+class UserActivity extends Model
 {
     //
-    protected $table = 'endpoint_activity';
-
-    public $timestamps = false;
+    protected $table = 'user_activity';
 
     protected $fillable = [
-        'identifier',
         'endpoint_used',
         'files_downloaded',
         'activity_date',
@@ -21,8 +18,8 @@ class EndpointActivity extends Model
         'data_transferred'
     ];
 
-    public function subscription()
+    public function user()
     {
-        return $this->belongsTo(Subscription::class, 'subscriptions');
+        return $this->belongsTo(User::class, 'userid');
     }
 }
