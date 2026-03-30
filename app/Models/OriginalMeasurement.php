@@ -3,18 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OriginalMeasurement extends Model
 {
-    //
-    protected $table = 'original_measurement';
-    protected $fillable = [
-        'missing_field',
-        'invalid_temperature'
-    ];
+    public $timestamps = false;
 
-    public function measurement()
+    protected $table = "original_measurement";
+
+    protected $fillable = ["corrected_measurement", "missing_field", "invalid_temperature"];
+
+    public function measurement(): BelongsTo
     {
-        return $this->belongsTo(Measurement::class, 'measurement');
+        return $this->belongsTo(Measurement::class, "corrected_measurement");
     }
 }

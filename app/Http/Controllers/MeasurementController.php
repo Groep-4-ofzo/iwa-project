@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Measurement;
+use App\Services\MeasurementIngestService;
 use Illuminate\Http\Request;
 
 class MeasurementController extends Controller
@@ -34,25 +35,12 @@ class MeasurementController extends Controller
             "WEATHERDATA.*.WNDDIR" => "required",
         ]);
 
+        $ingestService = new MeasurementIngestService();
+
         foreach ($validated["WEATHERDATA"] as $item) {
             $sanitizedItem = array_map(fn($value) => $value === "None" ? null : $value, $item);
 
-            Measurement::create([
-                "station" => $sanitizedItem["STN"],
-                "date" => $sanitizedItem["DATE"],
-                "time" => $sanitizedItem["TIME"],
-                "temperature" => $sanitizedItem["TEMP"],
-                "dewpoint_temperature" => $sanitizedItem["DEWP"],
-                "air_pressure_station" => $sanitizedItem["STP"],
-                "air_pressure_sea_level" => $sanitizedItem["SLP"],
-                "visibility" => $sanitizedItem["VISIB"],
-                "wind_speed" => $sanitizedItem["WDSP"],
-                "percipation" => $sanitizedItem["PRCP"],
-                "snow_depth" => $sanitizedItem["SNDP"],
-                "conditions" => $sanitizedItem["FRSHTT"],
-                "cloud_cover" => $sanitizedItem["CLDC"],
-                "wind_direction" => $sanitizedItem["WNDDIR"],
-            ]);
+            $ingestService->handleOne($sanitizedItem);
         }
 
         return response()->json(["status" => "success"], 201);
