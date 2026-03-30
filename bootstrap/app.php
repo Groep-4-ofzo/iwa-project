@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\CheckRole::class,
             'api.auth' => \App\Http\Middleware\ApiAuth::class,
             'api.log' => \App\Http\Middleware\LogApiRequests::class,
+            'api.gen' => \App\Http\Middleware\ApiGenerator::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
