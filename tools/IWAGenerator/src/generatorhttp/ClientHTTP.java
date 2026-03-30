@@ -21,7 +21,6 @@ implements IClient, IClientListener
 	public ClientHTTP(IClient client, URL url, ClientHTTPSelector selector) {
 		this.client = client;
 		this.url = url;
-        System.out.println(url);
 		this.selector = selector;
 		this.active = false;
 		this.connected = false;
@@ -60,8 +59,8 @@ implements IClient, IClientListener
 				this.active = false;
 				this.error = true;
 				Log.ERROR.printf("Error registering client for connecting: %s", new Object[] { e });
-			} 
-		} 
+			}
+		}
 	}
 
 	public boolean write() {
@@ -70,7 +69,7 @@ implements IClient, IClientListener
 			this.writable = false;
 			this.selector.setWritable(this);
 			writing = true;
-		} 
+		}
 		return writing;
 	}
 
