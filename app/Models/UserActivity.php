@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserActivity extends Model
 {
     //
-    protected $table = 'user_activity';
+    protected $table = 'useractivity';
 
     protected $fillable = [
         'endpoint_used',

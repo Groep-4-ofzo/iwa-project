@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('useractivity', function (Blueprint $table) {
             $table->id();
-            $table->integer('userid');
+            $table->unsignedBigInteger('userid');
             $table->string('endpoint_used', 256);
             $table->integer('files_downloaded');
             $table->date('activity_date');
