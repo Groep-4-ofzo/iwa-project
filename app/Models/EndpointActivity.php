@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class EndpointActivity extends Model
 {
-    //
     protected $table = 'endpoint_activity';
 
     public $timestamps = false;

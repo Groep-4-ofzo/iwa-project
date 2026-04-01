@@ -16,6 +16,6 @@ class Query extends Model
 
     public function contract()
     {
-        return $this->belongsTo('App\Models\Contract');
+        return $this->belongsTo(Contract::class, 'contract_id');
     }
 }

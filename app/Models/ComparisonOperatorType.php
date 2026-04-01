@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OperatorType extends Model
+class ComparisonOperatorType extends Model
 {
-    protected $table = 'operator_type';
+    protected $table = 'comparison_operator_type';
 
     public $timestamps = false;
 
