@@ -33,6 +33,11 @@
                 Fault Dashboard
             </a>
             @endrole
+            @role('Administrator')
+            <a href="{{ route('admin.logs.overview') }}" class="block px-4 py-2 rounded hover:bg-gray-200">
+                Logs Overview
+            </a>
+            @endrole
             @anyrole('Commercieel medewerker', 'Administrator')
             <a href="{{ route('admin.subscriptions.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.subscriptions.*') ? 'bg-gray-200 font-semibold' : '' }}">
                 Subscriptions
