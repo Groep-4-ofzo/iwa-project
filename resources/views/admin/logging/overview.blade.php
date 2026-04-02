@@ -1,5 +1,4 @@
 @extends('admin.layouts.admin')
-<!--vars = userActivity and endpointActivity-->
 @section('content')
     <div class="container mx-auto px-4 py-6">
         <div class="flex justify-between items-center mb-4">
@@ -12,82 +11,97 @@
             </div>
         @endif
 
-        <div class="overflow-x-auto bg-white rounded shadow">
-            <input type="radio" name="type" id="subscribers" checked hidden>
-            <input type="radio" name="type" id="users" hidden>
-            <label for="subscribers" class="border-purple-200 text-purple-600 hover:border-transparent hover:bg-purple-600 hover:text-white active:bg-purple-700">
-                Subscriber logs
-            </label>
-            <label for="users" id="user_button">
-                User logs
-            </label>
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-2xl font-bold text-gray-800">Latest logs</h1>
+            </div>
 
-            <div id="subscriber_logs">
+            <input type="radio" id="subscribers" name="log_tabs" class="peer/subscribers hidden" checked />
+            <input type="radio" id="users" name="log_tabs" class="peer/users hidden" />
+
+            <div class="flex space-x-1 mb-0 px-2">
+                <label for="subscribers"
+                    class="cursor-pointer px-6 py-2 text-sm font-bold rounded-t-lg transition-all duration-200
+                            /* Standaard staat (Inactief/Donkerder) */
+                            bg-gray-200 text-gray-500 hover:bg-gray-300
+                            /* Actieve staat (Geselecteerd/Wit) */
+                            peer-checked/subscribers:bg-white peer-checked/subscribers:text-purple-600 peer-checked/subscribers:shadow-[-1px_-1px_5px_rgba(0,0,0,0.05)]">
+                    Subscriber logs
+                </label>
+
+                <label for="users"
+                    class="cursor-pointer px-6 py-2 text-sm font-bold rounded-t-lg transition-all duration-200
+                            /* Standaard staat (Inactief/Donkerder) */
+                            bg-gray-200 text-gray-500 hover:bg-gray-300
+                            /* Actieve staat (Geselecteerd/Wit) */
+                            peer-checked/users:bg-white peer-checked/users:text-purple-600 peer-checked/users:shadow-[-1px_-1px_5px_rgba(0,0,0,0.05)]">
+                    User logs
+                </label>
+            </div>
+
+            <div id="subscriber_logs"
+                class="hidden peer-checked/subscribers:block bg-white shadow-lg rounded-b-lg rounded-tr-lg overflow-x-auto border-t border-gray-100">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Identifier</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">endpoint used</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">files downloaded</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">activity date</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">activity time</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">authorised</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">data transferred</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Identifier</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Endpoint</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Files</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Date</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Time</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Auth</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Data</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="divide-y divide-gray-200">
                         @foreach($endpointActivity as $activity)
-                        <tr>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->id }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->identifier }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->endpoint_used }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->files_downloaded }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->activity_date }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->activity_time }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->authorized }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->data_transferred }}</th>
-                        </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 text-sm text-gray-900">{{ $activity->id }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900 font-medium">{{ $activity->identifier }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $activity->endpoint_used }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $activity->files_downloaded }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $activity->activity_date }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $activity->activity_time }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $activity->authorized }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 font-mono">{{ $activity->data_transferred }}</td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-            
-            <div id="user_logs">
+
+            <div id="user_logs"
+                class="hidden peer-checked/users:block bg-white shadow-lg rounded-b-lg rounded-tr-lg overflow-x-auto border-t border-gray-100">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">endpoint used</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">files downloaded</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">activity date</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">activity time</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">authorised</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">data transferred</th>
-                    </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($userActivity as $activity)
                         <tr>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->id }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->userid }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->endpoint_used }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->files_downloaded }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->activity_date }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->activity_time }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->authorized }}</th>
-                            <th class="px-6 py-4 whitespace-nowrap">{{ $activity->data_transferred }}</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">User ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Endpoint</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Files</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Date</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Time</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Auth</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Data</th>
                         </tr>
-                    @endforeach
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach($userActivity as $activity)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 text-sm text-gray-900">{{ $activity->id }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-900 font-medium">{{ $activity->userid }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $activity->endpoint_used }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $activity->files_downloaded }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $activity->activity_date }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $activity->activity_time }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $activity->authorized }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500 font-mono">{{ $activity->data_transferred }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
-            <style>
-                #user_logs, #subscriber_logs { display: none; }
-                #subscribers:checked ~ #subscriber_logs { display: block; }
-                #users:checked ~ #user_logs { display: block; }
-            </style>
         </div>
     </div>
 @endsection
