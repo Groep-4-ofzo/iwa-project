@@ -41,6 +41,7 @@ Route::controller(LoginRegisterController::class)->group(function () {
 });
 
 Route::middleware(['auth', 'role:Administrator'])->prefix('admin')->group(function() {
+    Route::get('/logs', [LoggingController::class, 'overview'])->name('logs.overview');
     Route::get('/logs/user/{user}', [LoggingController::class, 'users'])->name('logs.user');
     Route::get('/logs/subscription/{subscription}', [LoggingController::class, 'subscriptions'])->name('logs.subscription');
 

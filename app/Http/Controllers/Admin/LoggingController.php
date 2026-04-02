@@ -12,6 +12,13 @@ use Illuminate\Http\Request;
 
 class LoggingController extends Controller
 {
+    public function overview()
+    {
+        $userActivity = UserActivity::all();
+        $endpointActivity = EndpointActivity::all();
+        return view('admin.logging.overview', compact('userActivity','endpointActivity'));
+    }
+
     public function users(User $user)
     {
         $userActivity = UserActivity::all()->where('userid', $user->id);
