@@ -41,8 +41,9 @@ Route::controller(LoginRegisterController::class)->group(function () {
 });
 
 Route::middleware(['auth', 'role:Administrator'])->prefix('admin')->group(function() {
-    Route::get('/logs/user/{user}', [LoggingController::class, 'users'])->name('logs.user');
-    Route::get('/logs/subscription/{subscription}', [LoggingController::class, 'subscriptions'])->name('logs.subscription');
+    Route::get('/logs', [LoggingController::class, 'overview'])->name('admin.logs.overview');
+    Route::get('/logs/user/{user}', [LoggingController::class, 'users'])->name('admin.logs.user');
+    Route::get('/logs/subscription/{subscription}', [LoggingController::class, 'subscriptions'])->name('admin.logs.subscription');
 
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('admin.users.create');
