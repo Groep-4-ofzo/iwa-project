@@ -54,7 +54,7 @@
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Data</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200">
+                    <tbody class="divide-y divide-gray-200" id="endpoint_table">
                         @foreach($endpointActivity as $activity)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 text-sm text-gray-900">{{ $activity->id }}</td>
@@ -86,7 +86,7 @@
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Data</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200">
+                    <tbody class="divide-y divide-gray-200" id="user_table">
                         @foreach($userActivity as $activity)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 text-sm text-gray-900">{{ $activity->id }}</td>
@@ -104,4 +104,70 @@
             </div>
         </div>
     </div>
+    <script>
+        const refreshTime = 10; // Refresh time in seconds
+        const itemsPerPage = 10;
+
+        const tableConfigs = {
+            endpoint: {
+                tableName: 'endpoint_table',
+                paginationName: 'endpoint_pagination',
+                columns: (row) => `
+                    <td class="px-6 py-4 text-sm text-gray-900">${ row.id }</td>
+                    <td class="px-6 py-4 text-sm text-gray-900 font-medium">${ row.identifier }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${ row.endpoint_used }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${ row.files_downloaded }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${ row.activity_date }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${ row.activity_time }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${ row.authorized }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500 font-mono">${ row.data_transferred }</td>
+                `,
+                colspan: 8,
+            },
+            user: {
+                tableName: 'user_table',
+                paginationName: 'user_pagination',
+                columns: (row) => `
+                    <td class="px-6 py-4 text-sm text-gray-900">${ row.id }</td>
+                    <td class="px-6 py-4 text-sm text-gray-900 font-medium">${ row.userid }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${ row.endpoint_used }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${ row.files_downloaded }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${ row.activity_date }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${ row.activity_time }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">${ row.authorized }</td>
+                    <td class="px-6 py-4 text-sm text-gray-500 font-mono">${ row.data_transferred }</td>
+                `,
+                colspan: 8,
+            },
+        };
+
+        let data = {};
+
+        async function fetchData() {
+            try {
+                const response = await fetch('/api/logs');
+                data = await response.json();
+
+                renderTable('endpoint');
+                renderTable('user')
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function renderTable(table) {
+            const config = tableConfigs[table];
+            const tableBody = document.getElementById(config.tableName);
+            const rows = data[table] ?? [];
+
+            if (rows.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="${config.colspan}" class="text-center text-gray-500 py-6">Geen gegevens gevonden</td></tr>`;
+            } else {
+                tableBody.innerHTML = rows.map(row => `<tr>${config.columns(row)}</tr>`).join('');
+            }
+        }
+
+        fetchData()
+        setInterval(fetchData, refreshTime * 1000)
+    </script>
 @endsection
