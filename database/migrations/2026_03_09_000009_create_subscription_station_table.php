@@ -30,6 +30,7 @@ return new class extends Migration
             $table->collation = 'utf16_unicode_ci';
 
         });
+
     }
 
     /**

@@ -33,6 +33,7 @@ return new class extends Migration
             $table->foreign('type')
                 ->references('id')
                 ->on('subscription_types');
+
         });
     }
 

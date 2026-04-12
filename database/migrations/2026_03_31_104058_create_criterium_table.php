@@ -41,6 +41,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('comparison_operator_type');
         });
+
     }
 
     /**

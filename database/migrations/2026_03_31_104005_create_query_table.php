@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('contract_id', 'fk_Query_Contract')
                 ->references('id')
                 ->on('contract');
+
         });
     }
 

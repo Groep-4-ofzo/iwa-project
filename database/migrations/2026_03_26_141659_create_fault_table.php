@@ -30,6 +30,8 @@ return new class extends Migration
                 ->onUpdate('restrict')
                 ->onDelete('restrict');
         });
+
+
     }
 
     /**
