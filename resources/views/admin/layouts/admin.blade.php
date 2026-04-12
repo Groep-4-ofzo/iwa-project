@@ -65,10 +65,22 @@
             <span class="text-blue-600 text-sm ml-2">{{ auth()->user()->userRole->role ?? '' }}</span>
         </div>
 
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">Logout</button>
-            </form>
+            <div class="flex items-center gap-4">
+
+                <a href="{{ url('/') }}"
+                   class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 text-gray-800 transition">
+                    Terug naar start
+                </a>
+
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                            class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
+                        Logout
+                    </button>
+                </form>
+
+            </div>
         </header>
 
 

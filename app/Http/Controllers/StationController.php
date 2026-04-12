@@ -97,4 +97,11 @@ class StationController extends Controller
 
         return view("station", compact("station", "geo", "latestMeasurement", "stats", "chartTemp", "chartAirPressure", "chartWindSpeed", "chartPercipation"));
     }
+
+    public function list()
+    {
+        $stations = Station::all();
+
+        return view('stations.index', compact('stations'));
+    }
 }

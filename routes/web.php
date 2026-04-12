@@ -19,6 +19,8 @@ Route::post("/compare", [CompareController::class, "compare"]);
 
 Route::get("/station/{name}", [StationController::class, "index"])->name("station");
 
+Route::get('/stations', [StationController::class, 'list'])->name('stations.index');
+
 Route::get("/", function () {
     return view("index");
 });
@@ -61,6 +63,11 @@ Route::middleware(['auth', 'role:Commercieel medewerker,Administrator'])->prefix
     Route::get('/subscriptions/{subscription}/edit', [SubscriptionController::class, 'edit'])->name('admin.subscriptions.edit');
     Route::put('/subscriptions/{subscription}', [SubscriptionController::class, 'update'])->name('admin.subscriptions.update');
     Route::delete('/subscriptions/{subscription}', [SubscriptionController::class, 'destroy'])->name('admin.subscriptions.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/stations', [\App\Http\Controllers\StationController::class, 'list'])
+        ->name('stations.index');
 });
 
 

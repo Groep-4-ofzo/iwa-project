@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
+
+<div class="mb-4">
+    <a href="{{ url('/') }}"
+       class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg shadow-sm hover:bg-gray-300 transition">
+        ← Terug naar startpagina
+    </a>
+</div>
+
 <head>
+
     <title>Compare Stations</title>
 </head>
 <body>
