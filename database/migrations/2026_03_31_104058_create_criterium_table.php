@@ -28,9 +28,15 @@ return new class extends Migration
             $table->foreign('group', 'fk_Criterium_Group')
                 ->references('id')
                 ->on('criterium_group');
+
             $table->foreign('operator', 'fk_Criterium_Operator')
                 ->references('id')
                 ->on('operator_type');
+
+            $table->foreign('value_type')
+                ->references('id')
+                ->on('criterium_type');
+
             $table->foreign('value_comparison', 'fk_Criterium_Value_Comparison')
                 ->references('id')
                 ->on('comparison_operator_type');

@@ -18,7 +18,14 @@ return new class extends Migration
             $table->date('start_datum');
             $table->date('end_datum')->nullable();
             $table->string('url', 100);
+
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies')
+                ->onDelete('cascade');
         });
+
+
     }
 
     /**

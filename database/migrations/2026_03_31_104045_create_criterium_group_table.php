@@ -24,9 +24,14 @@ return new class extends Migration
             $table->foreign('query', 'fk_Criterium_Group_Query')
                 ->references('id')
                 ->on('query');
+
             $table->foreign('type', 'fk_Criterium_Group_Type')
                 ->references('id')
                 ->on('criterium_type');
+
+            $table->foreign('operator')
+                ->references('id')
+                ->on('operator_type');
         });
     }
 

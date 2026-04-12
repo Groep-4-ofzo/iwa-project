@@ -25,7 +25,8 @@ return new class extends Migration
 
             $table->foreign('userid', 'fk_UserActivity_identifier')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

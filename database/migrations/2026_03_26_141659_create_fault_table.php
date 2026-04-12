@@ -26,7 +26,7 @@ return new class extends Migration
 
             $table->foreign('measurement', 'fk_fault_measurement')
                 ->references('id')
-                ->on('measurement')
+                ->on('measurements')
                 ->onUpdate('restrict')
                 ->onDelete('restrict');
         });

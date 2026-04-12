@@ -17,15 +17,15 @@ return new class extends Migration
             $table->primary(['subscription', 'station']);
             $table->index('station', 'idx_station_subscription');
 
-            
-            $table->foreign('station', 'fk_company_subscription')
+
+            $table->foreign('subscription')
+                ->references('id')
+                ->on('subscriptions');
+
+            $table->foreign('station')
                 ->references('name')
                 ->on('station');
 
-            $table->foreign('subscription', 'fk_station_subscription')
-                ->references('id')
-                ->on('subscriptions');
-    
             $table->charset = 'utf16';
             $table->collation = 'utf16_unicode_ci';
 

@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('omschrijving', 256)->nullable();
 
             $table->index('contract_id', 'idx_Query_Contract');
+
             $table->foreign('contract_id', 'fk_Query_Contract')
                 ->references('id')
-                ->on('contracts');
+                ->on('contract');
         });
     }
 
