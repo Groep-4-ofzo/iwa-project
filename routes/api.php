@@ -13,7 +13,7 @@ Route::middleware(['api.auth', 'api.log'])->group(function () {
     Route::get('/station/{station}', [StationController::class, "show"]);
 });
 
-Route::middleware([])->group(function () {
+Route::middleware(['web', 'auth', 'role:Administrator'])->group(function () {
     Route::get("/logs", [LoggingController::class, "activity"]);
 });
 
