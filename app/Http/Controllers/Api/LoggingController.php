@@ -12,8 +12,8 @@ class LoggingController extends Controller
     public function activity()
     {
         return response()->json([
-            'endpoint' => EndpointActivity::all(),
-            'user' => UserActivity::all(),
+            'endpoint' => EndpointActivity::orderBy('activity_date', 'desc')->orderBy('activity_time', 'desc')->get(),
+            'user' => UserActivity::orderBy('activity_date', 'desc')->orderBy('activity_time', 'desc')->get(),
         ]);
     }
 }

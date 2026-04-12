@@ -14,9 +14,7 @@ class LoggingController extends Controller
 {
     public function overview()
     {
-        $userActivity = UserActivity::all();
-        $endpointActivity = EndpointActivity::all();
-        return view('admin.logging.overview', compact('userActivity','endpointActivity'));
+        return view('admin.logging.overview');
     }
 
     public function users(User $user)
