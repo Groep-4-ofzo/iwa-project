@@ -18,7 +18,7 @@
     <aside class="w-64 bg-white shadow flex flex-col">
         <div class="px-6 py-4 border-b flex items-center gap-3">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-8 h-8">
-            <h1 class="text-xl font-bold text-gray-800">Admin Panel</h1>
+            <h1 class="text-xl font-bold text-gray-800">IWA Panel</h1>
         </div>
         <nav class="flex-1 px-2 py-4 space-y-1">
             <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.dashboard') ? 'bg-gray-200 font-semibold' : '' }}">
@@ -52,6 +52,11 @@
             @anyrole('Commercieel medewerker', 'Administrator')
             <a href="{{ route('admin.subscriptionStations.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.subscriptionStations.*') ? 'bg-gray-200 font-semibold' : '' }}">
                 Stations aan Subscriptions toevoegen
+            </a>
+            @endanyrole
+            @anyrole('Commercieel medewerker', 'Administrator')
+            <a href="{{ route('admin.query.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.query.index') ? 'bg-gray-200 font-semibold' : '' }}">
+                Query Builder
             </a>
             @endanyrole
             <a href="{{ route('admin.measurements.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.measurements.index') ? 'bg-gray-200 font-semibold' : '' }}">

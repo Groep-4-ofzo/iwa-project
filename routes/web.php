@@ -66,6 +66,10 @@ Route::middleware(["auth", "role:Commercieel medewerker,Administrator"])
         Route::get("/subscriptions/{subscription}/edit", [SubscriptionController::class, "edit"])->name("admin.subscriptions.edit");
         Route::put("/subscriptions/{subscription}", [SubscriptionController::class, "update"])->name("admin.subscriptions.update");
         Route::delete("/subscriptions/{subscription}", [SubscriptionController::class, "destroy"])->name("admin.subscriptions.destroy");
+
+        Route::get('/query-builder', [QueryController::class, 'index'])->name('admin.query.index');
+        Route::post('/query-builder', [QueryController::class, 'store'])->name('admin.query.store');
+        Route::get('/query/execute/{id}', [QueryController::class, 'execute'])->name('admin.query.execute');
     });
 
 Route::middleware(["auth", "role:Commercieel medewerker,Administrator"])
@@ -89,7 +93,3 @@ Route::middleware(['auth', 'role:Commercieel medewerker,Administrator'])->prefix
 Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::get('/measurements', [MeasurementController::class, 'index'])->name('admin.measurements.index');
 });
-Route::get('/query-builder', [QueryController::class, 'index'])->name('query.index');
-
-Route::post('/query-builder', [QueryController::class, 'store'])->name('query.store');
-Route::get('/query/execute/{id}', [QueryController::class, 'execute'])->name('query.execute');

@@ -15,6 +15,7 @@ class WeatherController extends Controller
     {
         $subscription = $request->attributes->get('subscription');
         $query_id = $request->query_id;
+
         if (!$subscription) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -25,6 +26,7 @@ class WeatherController extends Controller
         if (!$contract) {
             return response()->json(['error' => 'No contract found'], 404);
         }
+
         $query = Query::where([
             ['contract_id', $contract->id],
             ['id', (int) $query_id]
@@ -34,8 +36,6 @@ class WeatherController extends Controller
         if (!$query) {
             return response()->json(['error' => 'No query found'], 404);
         }
-
-
 
         $now = Carbon::now();
         $lastPull = $query->last_valid_pull;
@@ -69,7 +69,6 @@ class WeatherController extends Controller
         }
 
         $queryRecord = Query::with('groups.criteria.type')->findOrFail($query->id);
-
 
         $sql = Station::query();
 
@@ -107,7 +106,7 @@ class WeatherController extends Controller
             });
         }
         $stations = $sql
-            ->with('geolocation') 
+            ->with('geolocation')
             ->distinct()
             ->get()
             ->pluck('name');

@@ -96,7 +96,7 @@
         </div>
     </div>
     <script>
-        const refreshTime = 10; // Refresh time in seconds
+        const refreshTime = 1; // Refresh time in seconds
         const itemsPerPage = 10;
 
         const tableConfigs = {

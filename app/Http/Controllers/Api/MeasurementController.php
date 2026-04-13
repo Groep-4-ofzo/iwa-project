@@ -44,6 +44,6 @@ class MeasurementController extends Controller
             $query->where('station', $request->station);
         }
 
-        return response()->json($query->get());
+        return response()->json($query->limit(1000)->get());
     }
 }

@@ -25,7 +25,7 @@ class QueryController extends Controller
             'criteriaCounts' => $request->get('criteria', [0 => 1]),
         ];
 
-        return view('query-builder', $data);
+        return view('admin.queryBuilder.query-builder', $data);
     }
 
     public function store(Request $request)
@@ -54,7 +54,7 @@ class QueryController extends Controller
             return $q;
         });
 
-        return redirect()->route('query.execute', $query->id);
+        return redirect()->route('admin.query.execute', $query->id);
     }
 
     public function execute($id)
@@ -98,10 +98,10 @@ class QueryController extends Controller
         }
 
         $results = $sql
-            ->with('geolocation') 
+            ->with('geolocation')
             ->distinct()
-            ->get();
+            ->paginate(13);
 
-        return view('query-results', compact('results', 'queryRecord'));
+        return view('admin.queryBuilder.query-results', compact('results', 'queryRecord'));
     }
 }
