@@ -17,7 +17,7 @@
         @csrf
         <h1>Query Builder</h1>
         <input type="text" name="omschrijving" placeholder="Naam van de Query" required style="width:100%; padding:10px; margin-bottom:20px;">
-        <input type="number" name="contract_id" placeholder="10" />
+        <input type="number" name="contract_id" placeholder="1" />
         @for ($i = 0; $i < $groupCount; $i++)
             <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; background: #f9f9f9;">
                 <strong>Groep {{ $i + 1 }}</strong>

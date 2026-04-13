@@ -25,7 +25,7 @@ class WeatherController extends Controller
         if (!$contract) {
             return response()->json(['error' => 'No contract found'], 404);
         }
-        $query = Query::all()->where([
+        $query = Query::where([
             ['contract_id', $contract->id],
             ['id', (int) $query_id]
         ])->first();
@@ -111,7 +111,7 @@ class WeatherController extends Controller
             ->distinct()
             ->get()
             ->pluck('name');
-        dd($stations);
+
         if (empty($stations)) {
             return response()->json([
                 'new_data' => false,
