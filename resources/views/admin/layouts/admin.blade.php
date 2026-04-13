@@ -21,7 +21,7 @@
             <h1 class="text-xl font-bold text-gray-800">Admin Panel</h1>
         </div>
         <nav class="flex-1 px-2 py-4 space-y-1">
-            <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('dashboard') ? 'bg-gray-200 font-semibold' : '' }}">
+            <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.dashboard') ? 'bg-gray-200 font-semibold' : '' }}">
                 Dashboard
             </a>
             @role('Administrator')
@@ -30,12 +30,12 @@
             </a>
             @endrole
             @role('Administrator')
-            <a href="{{ route('admin.faults.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200">
+            <a href="{{ route('admin.faults.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.faults.index') ? 'bg-gray-200 font-semibold' : '' }}">
                 Fault Dashboard
             </a>
             @endrole
             @role('Administrator')
-            <a href="{{ route('admin.logs.overview') }}" class="block px-4 py-2 rounded hover:bg-gray-200">
+            <a href="{{ route('admin.logs.overview') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.logs.overview') ? 'bg-gray-200 font-semibold' : '' }}">
                 Logs Overview
             </a>
             @endrole
@@ -54,7 +54,7 @@
                 Stations aan Subscriptions toevoegen
             </a>
             @endanyrole
-            <a href="{{ route('admin.measurements.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.measurements.index.*') ? 'bg-gray-200 font-semibold' : '' }}">
+            <a href="{{ route('admin.measurements.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.measurements.index') ? 'bg-gray-200 font-semibold' : '' }}">
                 Measurements
             </a>
         </nav>
