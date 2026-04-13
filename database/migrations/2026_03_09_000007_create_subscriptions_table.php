@@ -26,13 +26,14 @@ return new class extends Migration
             $table->index('type', 'idx_subscription_type');
             $table->index('identifier', 'idx_subscription_identifier');
 
-            $table->foreign('type', 'fk_subscription_type')
+            $table->foreign('company')
+                ->references('id')
+                ->on('companies');
+
+            $table->foreign('type')
                 ->references('id')
                 ->on('subscription_types');
 
-            $table->foreign('company', 'fk_subscription_company')
-                ->references('id')
-                ->on('companies');
         });
     }
 

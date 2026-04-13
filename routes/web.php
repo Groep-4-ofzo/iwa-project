@@ -19,6 +19,8 @@ Route::post("/compare", [CompareController::class, "compare"]);
 
 Route::get("/station/{name}", [StationController::class, "index"])->name("station");
 
+Route::get("/stations", [StationController::class, "list"])->name("stations.index");
+
 Route::get("/", function () {
     return view("index");
 });

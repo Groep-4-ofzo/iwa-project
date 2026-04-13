@@ -19,14 +19,15 @@ return new class extends Migration
             $table->string('prefix', 10)->nullable();
             $table->string('email', 100);
             $table->string('employee_code', 10);
-            $table->unsignedBigInteger('user_role'); 
+            $table->unsignedBigInteger('user_role');
             $table->string('password', 256);
-            
+
             $table->index('user_role', 'idx_role_for_user_idx');
 
             $table->foreign('user_role', 'fk_role_for_user')
                 ->references('id')
                 ->on('userroles');
+
 
         });
 

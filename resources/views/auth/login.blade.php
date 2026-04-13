@@ -1,39 +1,41 @@
+<a href="{{ url('/') }}"
+   class="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+    ← Terug naar startpagina
+</a>
+<body class="bg-gray-100 p-8">
+<div class="max-w-3xl mx-auto">
 
 
-<div class="row justify-content-center mt-5">
-    <div class="col-md-8">
+    <h1 class="text-4xl font-bold mb-8">Login</h1>
 
-        <div class="card">
-            <div class="card-header">Login</div>
-            <div class="card-body">
-                <form action="{{ route('authenticate') }}" method="post">
-                    @csrf
-                    <div class="mb-3 row">
-                        <label for="email" class="col-md-4 col-form-label text-md-end text-start">Email Adres</label>
-                        <div class="col-md-6">
-                          <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
-                            @if ($errors->has('email'))
-                                <span class="text-danger">{{ $errors->first('email') }}</span>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="password" class="col-md-4 col-form-label text-md-end text-start">Wachtwoord</label>
-                        <div class="col-md-6">
-                          <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
-                            @if ($errors->has('password'))
-                                <span class="text-danger">{{ $errors->first('password') }}</span>
-                            @endif
-                        </div>
-                    </div>
-           
-                    <div class="mb-3 mt-3 row">
-                        <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Login">
-                    </div>
-                    
-                </form>
+
+    <div class="bg-white p-6 rounded-lg shadow mb-6">
+
+
+        <form method="POST" action="{{ route('authenticate') }}" class="space-y-4">
+            @csrf
+
+            <div>
+                <label class="block font-medium mb-1">Email Adres</label>
+                <input type="email" name="email"
+                       class="w-full border rounded p-2 focus:outline-none focus:ring focus:border-blue-300"
+                       required>
             </div>
-        </div>
-    </div>    
+
+            <div>
+                <label class="block font-medium mb-1">Wachtwoord</label>
+                <input type="password" name="password"
+                       class="w-full border rounded p-2 focus:outline-none focus:ring focus:border-blue-300"
+                       required>
+            </div>
+
+            <button type="submit"
+                    class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
+                Login
+            </button>
+
+        </form>
+
+    </div>
 </div>
-    
+</body>
