@@ -1,17 +1,25 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+
+
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
-return new class extends Migration
+require_once __DIR__ . '/BaseMigration.php'; 
+return new class extends BaseMigration
 {
     /**
      * Run the migrations.
      */
+
+    protected array $dependencies = [
+        '2026_03_06_000001_create_users_table' => 'users'
+    ];
+
     public function up(): void
     {
-        Schema::create('useractivity', function (Blueprint $table) {
+        Schema::createIfNotExists('useractivity', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('userid');
             $table->string('endpoint_used', 256);

@@ -1,17 +1,24 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
-return new class extends Migration
+require_once __DIR__ . '/BaseMigration.php'; 
+return new class extends BaseMigration
 {
     /**
      * Run the migrations.
      */
+    protected array $dependencies = [
+        '2026_03_09_000007_create_subscriptions_table' => 'subscriptions',
+        '2026_03_09_000002_create_station_table' => 'stations'
+    ];
+
     public function up(): void
     {
-        Schema::create('subscription_station', function (Blueprint $table) {
+        Schema::createIfNotExists('subscription_station', function (Blueprint $table) {
             $table->unsignedBigInteger('subscription');
             $table->string('station', 10);
             $table->primary(['subscription', 'station']);

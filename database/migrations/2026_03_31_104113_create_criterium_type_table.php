@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('criterium_type', function (Blueprint $table) {
+        Schema::createIfNotExists('criterium_type', function (Blueprint $table) {
             $table->id();
             $table->string('omschrijving', 256)->nullable();
             $table->string('referenced_table', 45)->nullable();
