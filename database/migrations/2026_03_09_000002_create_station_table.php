@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('station', function (Blueprint $table) {
+        Schema::createIfNotExists('station', function (Blueprint $table) {
             $table->string('name', 10)->primary();
             $table->float('longitude');
             $table->float('latitude');

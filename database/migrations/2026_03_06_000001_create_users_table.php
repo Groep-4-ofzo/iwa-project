@@ -4,14 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+require_once __DIR__ . '/BaseMigration.php'; 
+return new class extends BaseMigration
 {
     /**
      * Run the migrations.
      */
+
+    protected array $dependencies = [
+        '2026_03_06_000000_create_userroles_table' => 'userroles'
+    ];
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::createIfNotExists('users', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
             $table->string('first_name', 45)->nullable();
@@ -31,13 +36,13 @@ return new class extends Migration
 
         });
 
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
+        Schema::createIfNotExists('password_reset_tokens', function (Blueprint $table) {
             $table->string('email', 100)->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
 
-        Schema::create('sessions', function (Blueprint $table) {
+        Schema::createIfNotExists('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
             $table->string('ip_address', 45)->nullable();

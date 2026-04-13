@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('userroles', function (Blueprint $table) {
+        Schema::createIfNotExists('userroles', function (Blueprint $table) {
             $table->id();
             $table->string('role', 45)->unique();
             $table->string('description', 256)->nullable();

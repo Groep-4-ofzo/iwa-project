@@ -1,17 +1,24 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
-return new class extends Migration
+require_once __DIR__ . '/BaseMigration.php'; 
+return new class extends BaseMigration
 {
     /**
      * Run the migrations.
      */
+
+    protected array $dependencies = [
+        '2026_03_09_000002_create_station_table' => 'station',
+        '2026_03_09_000001_create_country_table' => 'country',
+    ];
     public function up(): void
     {
-        Schema::create('nearestlocation', function (Blueprint $table) {
+        Schema::createIfNotExists('nearestlocation', function (Blueprint $table) {
             $table->id();
             $table->string('station_name', 10);
             $table->string('name', 100)->nullable();

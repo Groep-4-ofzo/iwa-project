@@ -24,7 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::create('fault', function (Blueprint $table) {
+        Schema::createIfNotExists('fault', function (Blueprint $table) {
             $table->id();
             $table->enum('type_fault', ['MISSING', 'EXTREME_VALUE']);
             $table->string('which_field', 50);

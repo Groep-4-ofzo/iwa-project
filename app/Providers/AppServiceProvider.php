@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
                 $roles
             );
         });
-        //
+
+        Schema::macro('createIfNotExists', function (string $table, \Closure $callback) {
+        if (!Schema::hasTable($table)) {
+            Schema::create($table, $callback);
+        }
+    });
     }
 }
