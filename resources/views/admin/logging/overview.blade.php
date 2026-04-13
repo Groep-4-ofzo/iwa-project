@@ -1,10 +1,6 @@
 @extends('admin.layouts.admin')
 @section('content')
     <div class="container mx-auto px-4 py-6">
-        <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-bold">Latest logs</h1>
-        </div>
-
         @if(session('success'))
             <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
                 {{ session('success') }}

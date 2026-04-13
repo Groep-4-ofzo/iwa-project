@@ -33,10 +33,10 @@
                         {{ $subscription->identifier }}
                     </td>
                     <td class="px-5 py-4 text-sm text-gray-500">
-                        {{ $subscription->subscriptionType->name ?? '—' }}
+                        {{ $subscription->subscriptionType->name ?? '-' }}
                     </td>
                     <td class="px-5 py-4 text-sm text-gray-500">
-                        {{ $subscription->price ? '€' . number_format($subscription->price, 2, ',', '.') : '—' }}
+                        {{ $subscription->price ? '€' . number_format($subscription->price, 2, ',', '.') : '-' }}
                     </td>
                     <td class="px-5 py-4 text-sm">
                         <a href="{{ route('admin.subscriptionStations.show', $subscription) }}"
