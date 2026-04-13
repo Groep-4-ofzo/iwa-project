@@ -15,24 +15,39 @@
             <input type="radio" id="subscribers" name="log_tabs" class="peer/subscribers hidden" checked />
             <input type="radio" id="users" name="log_tabs" class="peer/users hidden" />
 
-            <div class="flex space-x-1 mb-0 px-2">
-                <label for="subscribers"
-                    class="cursor-pointer px-6 py-2 text-sm font-bold rounded-t-lg transition-all duration-200
-                            /* Standaard staat (Inactief/Donkerder) */
-                            bg-gray-200 text-gray-500 hover:bg-gray-300
-                            /* Actieve staat (Geselecteerd/Wit) */
-                            peer-checked/subscribers:bg-white peer-checked/subscribers:text-purple-600 peer-checked/subscribers:shadow-[-1px_-1px_5px_rgba(0,0,0,0.05)]">
-                    Subscriber logs
-                </label>
+            <div class="flex justify-between items-end px-2 mb-0">
+                <!-- Tabs -->
+                <div class="flex space-x-1 mb-0 px-2">
+                    <label for="subscribers"
+                        class="cursor-pointer px-6 py-2 text-sm font-bold rounded-t-lg transition-all duration-200
+                                /* Standaard staat (Inactief/Donkerder) */
+                                bg-gray-200 text-gray-500 hover:bg-gray-300
+                                /* Actieve staat (Geselecteerd/Wit) */
+                                peer-checked/subscribers:bg-white peer-checked/subscribers:text-purple-600 peer-checked/subscribers:shadow-[-1px_-1px_5px_rgba(0,0,0,0.05)]">
+                        Subscriber logs
+                    </label>
 
-                <label for="users"
-                    class="cursor-pointer px-6 py-2 text-sm font-bold rounded-t-lg transition-all duration-200
-                            /* Standaard staat (Inactief/Donkerder) */
-                            bg-gray-200 text-gray-500 hover:bg-gray-300
-                            /* Actieve staat (Geselecteerd/Wit) */
-                            peer-checked/users:bg-white peer-checked/users:text-purple-600 peer-checked/users:shadow-[-1px_-1px_5px_rgba(0,0,0,0.05)]">
-                    User logs
-                </label>
+                    <label for="users"
+                        class="cursor-pointer px-6 py-2 text-sm font-bold rounded-t-lg transition-all duration-200
+                                /* Standaard staat (Inactief/Donkerder) */
+                                bg-gray-200 text-gray-500 hover:bg-gray-300
+                                /* Actieve staat (Geselecteerd/Wit) */
+                                peer-checked/users:bg-white peer-checked/users:text-purple-600 peer-checked/users:shadow-[-1px_-1px_5px_rgba(0,0,0,0.05)]">
+                        User logs
+                    </label>
+                </div>
+
+                <!-- Live Updating toggle -->
+                <div class="flex items-center gap-3 pb-2">
+                    <span class="text-sm text-gray-600 font-medium">Live updates</span>
+                    <button id="pause_btn" onclick="togglePause()" role="switch"
+                            class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 bg-green-600">
+                            <span id="toggle_knob"
+                                  class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform duration-200 translate-x-6">
+                            </span>
+                    </button>
+                    <span id="pause_indicator" class="text-sm font-medium text-green-600 w-6 text-center">Aan</span>
+                </div>
             </div>
 
             <div id="subscriber_logs"
@@ -122,7 +137,31 @@
             user: { currentPage: 1, rows: [] },
         }
 
+        let isPaused = false;
+
+        function togglePause() {
+            const btn = document.getElementById('pause_btn');
+            const knob = document.getElementById('toggle_knob');
+            const indicator = document.getElementById('pause_indicator');
+
+            isPaused = !isPaused;
+
+            if (isPaused) {
+                btn.classList.replace('bg-green-600', 'bg-gray-600');
+                knob.classList.replace('translate-x-6', 'translate-x-1');
+                indicator.textContent = 'Uit';
+                indicator.classList.replace('text-green-600', 'text-gray-600');
+            } else {
+                btn.classList.replace('bg-gray-600', 'bg-green-600');
+                knob.classList.replace('translate-x-1', 'translate-x-6');
+                indicator.textContent = 'Aan';
+                indicator.classList.replace('text-gray-600', 'text-green-600');
+                fetchData();
+            }
+        }
+
         async function fetchData() {
+            if (isPaused) return;
             try {
                 const response = await fetch('/api/logs');
                 const data = await response.json();
