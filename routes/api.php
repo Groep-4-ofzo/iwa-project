@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\LoggingController;
 use App\Http\Controllers\Api\MeasurementController;
 use App\Http\Controllers\Api\StationController;
 use App\Http\Controllers\Api\GeneratorController;
+use App\Http\Controllers\Api\WeatherController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['api.auth', 'api.log'])->group(function () {
     Route::get("/measurement", [MeasurementController::class, "index"]);
     Route::get('/station/{station}', [StationController::class, "show"]);
+    Route::get('/weather', [WeatherController::class, 'getWeather']);
 });
 
 Route::middleware(['web', 'auth', 'role:Administrator'])->group(function () {
