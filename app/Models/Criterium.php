@@ -6,28 +6,33 @@ use Illuminate\Database\Eloquent\Model;
 
 class Criterium extends Model
 {
-    protected $table = 'criterium_types';
+    // De tabelnaam is 'criterium'
+    protected $table = 'criterium';
 
     public $timestamps = false;
 
+    // Deze velden horen hier, omdat dit de data-rijen zijn
     protected $fillable = [
-        'int_value',
-        'str_value',
-        'float_value',
-        'value_type'
+        'group', 
+        'operator', 
+        'int_value', 
+        'string_value', 
+        'float_value', 
+        'value_type', 
+        'value_comparison'
     ];
 
-    public function group()
+    public function groupRelation()
     {
         return $this->belongsTo(CriteriumGroup::class, 'group');
     }
 
-    public function operator()
+    public function type()
     {
-        return $this->belongsTo(OperatorType::class, 'operator');
+        return $this->belongsTo(CriteriumType::class, 'value_type');
     }
 
-    public function comparisonOperatorType()
+    public function comparison()
     {
         return $this->belongsTo(ComparisonOperatorType::class, 'value_comparison');
     }

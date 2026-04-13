@@ -19,4 +19,9 @@ class Query extends Model
     {
         return $this->belongsTo(Contract::class, 'contract_id');
     }
+
+    public function groups()
+    {
+        return $this->hasMany(CriteriumGroup::class, 'query');
+    }
 }
