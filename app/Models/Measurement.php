@@ -28,7 +28,7 @@ class Measurement extends Model
         "wind_direction",
     ];
 
-    public function station(): BelongsTo
+    public function getStation(): BelongsTo
     {
         return $this->belongsTo(Station::class, "station");
     }
