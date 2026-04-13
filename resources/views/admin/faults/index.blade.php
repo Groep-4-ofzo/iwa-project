@@ -57,7 +57,7 @@
         @forelse($latestFaults as $fault)
         <tr class="border-b hover:bg-gray-50">
 
-            <td class="p-3">{{ $fault->station }}</td>
+            <td class="p-3 text-blue-500"><a href="/admin/faults/{{ $fault -> station }}">{{ $fault->station }}</a></td>
 
             <td class="p-3">
                 @if($fault->missing_field)
