@@ -16,7 +16,8 @@
     </head>
     <body class="flex h-screen bg-gray-100 overflow-hidden">
     <aside class="w-64 bg-white shadow flex flex-col">
-        <div class="px-6 py-4 border-b">
+        <div class="px-6 py-4 border-b flex items-center gap-3">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-8 h-8">
             <h1 class="text-xl font-bold text-gray-800">Admin Panel</h1>
         </div>
         <nav class="flex-1 px-2 py-4 space-y-1">
