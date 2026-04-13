@@ -101,7 +101,13 @@ class StationController extends Controller
 
     public function list()
     {
-        $stations = Station::all();
+        $search = request('search');
+
+        $stations = Station::when($search, function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        })
+        ->paginate(13)
+        ->withQueryString();
 
         return view('stations.index', compact('stations'));
     }
