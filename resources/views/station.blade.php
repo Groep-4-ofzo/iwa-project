@@ -9,13 +9,88 @@
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script>
-            window.__stationCharts = {
-                hour: {
-                    temp: @json($chartTemp),
-                    airPressure: @json($chartAirPressure),
-                    windSpeed: @json($chartWindSpeed),
-                    percipation: @json($chartPercipation),
-                },
+            window.__charts = {
+                charts: [
+                    {
+                        canvasId: "stationChartHourTemp",
+                        type: "line",
+                        time: { parser: "yyyy-MM-dd HH:mm:ss" },
+                        data: { datasets: [@json($chartTemp)] },
+                        options: {
+                            plugins: {
+                                legend: { display: false },
+                                title: { display: true, text: "Temperature Last hour" },
+                            },
+                            scales: {
+                                y: {
+                                    ticks: {
+                                        callback: (value) => parseFloat(value).toFixed(1) + "°C",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    {
+                        canvasId: "stationChartHourAirPressure",
+                        type: "line",
+                        time: { parser: "yyyy-MM-dd HH:mm:ss" },
+                        data: { datasets: [@json($chartAirPressure)] },
+                        options: {
+                            plugins: {
+                                legend: { display: false },
+                                title: { display: true, text: "Air Pressure Last hour" },
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: false,
+                                    ticks: {
+                                        callback: (value) => parseFloat(value).toFixed(2) + " hPa",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    {
+                        canvasId: "stationChartHourWindSpeed",
+                        type: "line",
+                        time: { parser: "yyyy-MM-dd HH:mm:ss" },
+                        data: { datasets: [@json($chartWindSpeed)] },
+                        options: {
+                            plugins: {
+                                legend: { display:false },
+                                title: { display: true, text: "Wind Speed Last hour" },
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: (value) => parseFloat(value).toFixed(1) + " m/s",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    {
+                        canvasId: "stationChartHourPercipation",
+                        type: "line",
+                        time: { parser: "yyyy-MM-dd HH:mm:ss" },
+                        data: { datasets: [@json($chartPercipation)] },
+                        options: {
+                            plugins: {
+                                legend: { display:false },
+                                title: { display: true, text: "Precipitation Last hour" },
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: (value) => parseFloat(value).toFixed(2) + " mm",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                ],
             };
         </script>
     @endif

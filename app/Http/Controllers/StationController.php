@@ -7,6 +7,7 @@ use App\Models\Measurement;
 use App\Models\Station;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
 
 class StationController extends Controller
 {
@@ -17,12 +18,12 @@ class StationController extends Controller
 
         $latestMeasurement = Measurement::query()->where("station", $name)->orderByDesc("date")->orderByDesc("time")->first();
 
-        $sinceDay = Carbon::now()->subDay();
+        $sinceHour = Carbon::now()->subHour();
         $dtExpr = "STR_TO_DATE(CONCAT(`date`, ' ', `time`), '%Y-%m-%d %H:%i:%s')";
 
         $dayRows = Measurement::query()
             ->where("station", $name)
-            ->whereRaw("$dtExpr >= ?", [$sinceDay->toDateTimeString()])
+            ->whereRaw("$dtExpr >= ?", [$sinceHour->toDateTimeString()])
             ->selectRaw(
                 "
                 `date`,
