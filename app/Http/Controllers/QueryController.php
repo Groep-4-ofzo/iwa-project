@@ -31,7 +31,7 @@ class QueryController extends Controller
     public function store(Request $request)
     {
         $query = DB::transaction(function () use ($request) {
-            $q = Query::create(['contract_id' => 1, 'omschrijving' => $request->omschrijving]);
+            $q = Query::create(['contract_id' => $request->contract_id, 'omschrijving' => $request->omschrijving]);
             foreach ($request->input('groups_data', []) as $gIndex => $gData) {
                 $group = CriteriumGroup::create([
                     'query' => $q->id,
