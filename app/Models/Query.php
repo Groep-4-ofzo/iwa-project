@@ -11,6 +11,7 @@ class Query extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'contract_id',
         'omschrijving',
     ];
 

@@ -26,4 +26,8 @@ class Station extends Model
     public function nearestlocation() {
         return $this->hasMany(Nearestlocation::class, 'station_name', 'name');
     }
+
+    public function measurements() {
+        return $this->hasMany(Measurement::class, 'station', 'name');
+    }
 }

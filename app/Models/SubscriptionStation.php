@@ -11,6 +11,7 @@ class SubscriptionStation extends Model
     protected $table = 'subscription_station';
     protected $fillable = ['station', 'subscription'];
     public $timestamps = false;
+
     public function getStation()
     {
         return $this->belongsTo(Station::class, 'station', 'name');

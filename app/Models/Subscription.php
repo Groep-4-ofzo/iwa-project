@@ -29,4 +29,21 @@ class Subscription extends Model
     {
         return $this->belongsTo(SubscriptionType::class, 'type');
     }
+
+    public function contract()
+    {
+        return $this->hasOne(Contract::class, 'company_id', 'company');
+    }
+
+    public function stations()
+    {
+        return $this->belongsToMany(
+            Station::class,
+            'subscription_station',
+            'subscription',
+            'station',
+            'id',
+            'name'
+        );
+    }
 }
