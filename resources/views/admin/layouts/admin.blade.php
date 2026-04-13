@@ -48,11 +48,14 @@
                 Subscriptions Types
             </a>
             @endanyrole
-                   @anyrole('Commercieel medewerker', 'Administrator')
+            @anyrole('Commercieel medewerker', 'Administrator')
             <a href="{{ route('admin.subscriptionStations.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.subscriptionStations.*') ? 'bg-gray-200 font-semibold' : '' }}">
                 Stations aan Subscriptions toevoegen
             </a>
             @endanyrole
+            <a href="{{ route('admin.measurements.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.measurements.index.*') ? 'bg-gray-200 font-semibold' : '' }}">
+                Measurements
+            </a>
         </nav>
     </aside>
 

@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\FaultStationController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SubscriptionTypeController;
 use App\Http\Controllers\SubscriptionStationController;
+use App\Http\Controllers\MeasurementController;
+
 
 Route::get("/compare", [CompareController::class, "index"])->name("compare");
 Route::post("/compare", [CompareController::class, "compare"]);
@@ -77,11 +79,13 @@ Route::middleware(["auth", "role:Commercieel medewerker,Administrator"])
         Route::delete("/subscriptionTypes/{subscriptionType}", [SubscriptionTypeController::class, "destroy"])->name("admin.subscriptionTypes.destroy");
     });
 
-Route::middleware(["auth", "role:Commercieel medewerker,Administrator"])
-    ->prefix("admin")
-    ->group(function () {
-        Route::get("/subscriptionStations", [SubscriptionStationController::class, "index"])->name("admin.subscriptionStations.index");
-        Route::get("/subscriptionStations/{subscription}", [SubscriptionStationController::class, "show"])->name("admin.subscriptionStations.show");
-        Route::post("/subscriptionStations/{subscription}", [SubscriptionStationController::class, "store"])->name("admin.subscriptionStations.store");
-        Route::delete("/subscriptionStations/{station}/{subscription}", [SubscriptionStationController::class, "destroy"])->name("admin.subscriptionStations.destroy");
-    });
+Route::middleware(['auth', 'role:Commercieel medewerker,Administrator'])->prefix('admin')->group(function() {
+    Route::get('/subscriptionStations', [SubscriptionStationController::class, 'index'])->name('admin.subscriptionStations.index');
+    Route::get('/subscriptionStations/{subscription}', [SubscriptionStationController::class, 'show'])->name('admin.subscriptionStations.show');
+    Route::post('/subscriptionStations/{subscription}', [SubscriptionStationController::class, 'store'])->name('admin.subscriptionStations.store');
+    Route::delete('/subscriptionStations/{station}/{subscription}', [SubscriptionStationController::class, 'destroy'])->name('admin.subscriptionStations.destroy');
+});
+
+Route::middleware(['auth'])->prefix('admin')->group(function() {
+    Route::get('/measurements', [MeasurementController::class, 'index'])->name('admin.measurements.index');
+});

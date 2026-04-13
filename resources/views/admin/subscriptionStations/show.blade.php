@@ -23,7 +23,7 @@
 
     <div class="flex gap-6 items-start">
 
-        {{-- Gekoppelde stations --}}
+
         <div class="flex-1">
             <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
                 <table class="min-w-full divide-y divide-gray-100">
@@ -62,8 +62,7 @@
                 </table>
             </div>
         </div>
-
-        {{-- Formulier --}}
+ 
         <div class="w-80 shrink-0">
             <div class="bg-white border border-gray-200 rounded-xl p-5">
                 <h2 class="text-sm font-medium text-gray-900 mb-4">Station toevoegen</h2>
