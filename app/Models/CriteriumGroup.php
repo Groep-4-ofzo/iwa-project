@@ -7,21 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class CriteriumGroup extends Model
 {
     protected $table = 'criterium_group';
-
     public $timestamps = false;
 
     protected $fillable = [
-        'group_level',
+        'query',      
+        'type',        
+        'group_level', 
         'operator'
     ];
 
-    public function criteriumType()
+    public function criteria()
     {
-        return $this->belongsTo(CriteriumType::class, 'type');
-    }
-
-    public function queries()
-    {
-        return $this->belongsTo(Query::class, 'query');
+        return $this->hasMany(Criterium::class, 'group');
     }
 }

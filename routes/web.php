@@ -14,7 +14,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SubscriptionTypeController;
 use App\Http\Controllers\SubscriptionStationController;
 use App\Http\Controllers\MeasurementController;
-
+use App\Http\Controllers\QueryController;
 
 Route::get("/compare", [CompareController::class, "index"])->name("compare");
 Route::post("/compare", [CompareController::class, "compare"]);
@@ -89,3 +89,7 @@ Route::middleware(['auth', 'role:Commercieel medewerker,Administrator'])->prefix
 Route::middleware(['auth'])->prefix('admin')->group(function() {
     Route::get('/measurements', [MeasurementController::class, 'index'])->name('admin.measurements.index');
 });
+Route::get('/query-builder', [QueryController::class, 'index'])->name('query.index');
+
+Route::post('/query-builder', [QueryController::class, 'store'])->name('query.store');
+Route::get('/query/execute/{id}', [QueryController::class, 'execute'])->name('query.execute');
