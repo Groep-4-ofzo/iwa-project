@@ -15,7 +15,7 @@ class UserActivity extends Model
         'activity_date',
         'activity_time',
         'authorized',
-        'data_transferred'
+        'data_transferred',
     ];
 
     public function user()

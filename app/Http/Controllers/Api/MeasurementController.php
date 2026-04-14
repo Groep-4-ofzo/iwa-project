@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 
 class MeasurementController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $query = Measurement::query();
 
         if ($request->has('from')) {

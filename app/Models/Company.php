@@ -8,14 +8,15 @@ class Company extends Model
 {
     //
     protected $table = 'companies';
+
     protected $fillable = [
-      'name',
-      'city',
-      'street',
-      'number',
-      'number_additional',
-      'zip_code',
-      'email'
+        'name',
+        'city',
+        'street',
+        'number',
+        'number_additional',
+        'zip_code',
+        'email',
     ];
 
     public function country()

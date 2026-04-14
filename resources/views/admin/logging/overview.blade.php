@@ -16,7 +16,6 @@
             <input type="radio" id="users" name="log_tabs" class="peer/users hidden" />
 
             <div class="flex justify-between items-end px-2 mb-0">
-                <!-- Tabs -->
                 <div class="flex space-x-1 mb-0 px-2">
                     <label for="subscribers"
                         class="cursor-pointer px-6 py-2 text-sm font-bold rounded-t-lg transition-all duration-200
@@ -37,7 +36,6 @@
                     </label>
                 </div>
 
-                <!-- Live Updating toggle -->
                 <div class="flex items-center gap-3 pb-2">
                     <span class="text-sm text-gray-600 font-medium">Live updates</span>
                     <button id="pause_btn" onclick="togglePause()" role="switch"

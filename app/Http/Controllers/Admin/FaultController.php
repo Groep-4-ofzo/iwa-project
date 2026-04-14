@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\OriginalMeasurement;
 use App\Models\Measurement;
-use Illuminate\Support\Facades\DB;
+use App\Models\OriginalMeasurement;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class FaultController extends Controller
 {

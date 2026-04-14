@@ -12,6 +12,7 @@ class SubscriptionStationController extends Controller
     public function index()
     {
         $subscriptions = Subscription::orderBy('identifier')->paginate(10);
+
         return view('admin.subscriptionStations.index', compact('subscriptions'));
     }
 
@@ -30,19 +31,19 @@ class SubscriptionStationController extends Controller
     public function store(Request $request, Subscription $subscription)
     {
         $request->validate([
-            'station_id'    => 'required|array',
-            'station_id.*'  => 'exists:station,name',
+            'station_id' => 'required|array',
+            'station_id.*' => 'exists:station,name',
         ]);
 
         foreach ($request->station_id as $stationName) {
             SubscriptionStation::firstOrCreate([
-                'station'      => $stationName,
+                'station' => $stationName,
                 'subscription' => $subscription->id,
             ]);
         }
 
         return redirect()->route('admin.subscriptionStations.show', $subscription)
-            ->with('success', count($request->station_id) . ' station(s) gekoppeld.');
+            ->with('success', count($request->station_id).' station(s) gekoppeld.');
     }
 
     public function destroy($station, $subscription)

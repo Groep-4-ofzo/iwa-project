@@ -6,20 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Criterium extends Model
 {
-    // De tabelnaam is 'criterium'
     protected $table = 'criterium';
 
     public $timestamps = false;
 
-    // Deze velden horen hier, omdat dit de data-rijen zijn
     protected $fillable = [
-        'group', 
-        'operator', 
-        'int_value', 
-        'string_value', 
-        'float_value', 
-        'value_type', 
-        'value_comparison'
+        'group',
+        'operator',
+        'int_value',
+        'string_value',
+        'float_value',
+        'value_type',
+        'value_comparison',
     ];
 
     public function groupRelation()

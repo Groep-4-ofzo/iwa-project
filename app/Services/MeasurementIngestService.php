@@ -9,17 +9,17 @@ use Illuminate\Support\Facades\DB;
 class MeasurementIngestService
 {
     private const EXTRAPOLATABLE_FIELDS = [
-        "temperature",
-        "dewpoint_temperature",
-        "air_pressure_station",
-        "air_pressure_sea_level",
-        "visibility",
-        "wind_speed",
-        "percipation",
-        "snow_depth",
-        "cloud_cover",
-        "wind_direction",
-        "conditions",
+        'temperature',
+        'dewpoint_temperature',
+        'air_pressure_station',
+        'air_pressure_sea_level',
+        'visibility',
+        'wind_speed',
+        'percipation',
+        'snow_depth',
+        'cloud_cover',
+        'wind_direction',
+        'conditions',
     ];
 
     private const HISTORY_WINDOW = 30;
@@ -32,30 +32,31 @@ class MeasurementIngestService
             $filledMissingFields = $this->fillMissingMeasurementsUsingHistory($measurement);
             $this->correctTemperatureIfUnreal($measurement);
             $measurement->save();
+
             return $measurement;
         });
     }
 
     private function createMeasurementFromSanitizedItem(array $sanitizedItem): Measurement
     {
-        $measurement = new Measurement();
+        $measurement = new Measurement;
 
         $measurement->fill([
-            "station" => $sanitizedItem["STN"] ?? null,
-            "date" => $sanitizedItem["DATE"] ?? null,
-            "time" => $sanitizedItem["TIME"] ?? null,
+            'station' => $sanitizedItem['STN'] ?? null,
+            'date' => $sanitizedItem['DATE'] ?? null,
+            'time' => $sanitizedItem['TIME'] ?? null,
 
-            "temperature" => $this->toFloatOrNull($sanitizedItem["TEMP"] ?? null),
-            "dewpoint_temperature" => $this->toFloatOrNull($sanitizedItem["DEWP"] ?? null),
-            "air_pressure_station" => $this->toFloatOrNull($sanitizedItem["STP"] ?? null),
-            "air_pressure_sea_level" => $this->toFloatOrNull($sanitizedItem["SLP"] ?? null),
-            "visibility" => $this->toFloatOrNull($sanitizedItem["VISIB"] ?? null),
-            "wind_speed" => $this->toFloatOrNull($sanitizedItem["WDSP"] ?? null),
-            "percipation" => $this->toFloatOrNull($sanitizedItem["PRCP"] ?? null),
-            "snow_depth" => $this->toFloatOrNull($sanitizedItem["SNDP"] ?? null),
-            "cloud_cover" => $this->toFloatOrNull($sanitizedItem["CLDC"] ?? null),
-            "wind_direction" => $this->toIntOrNull($sanitizedItem["WNDDIR"] ?? null),
-            "conditions" => $sanitizedItem["FRSHTT"] ?? null,
+            'temperature' => $this->toFloatOrNull($sanitizedItem['TEMP'] ?? null),
+            'dewpoint_temperature' => $this->toFloatOrNull($sanitizedItem['DEWP'] ?? null),
+            'air_pressure_station' => $this->toFloatOrNull($sanitizedItem['STP'] ?? null),
+            'air_pressure_sea_level' => $this->toFloatOrNull($sanitizedItem['SLP'] ?? null),
+            'visibility' => $this->toFloatOrNull($sanitizedItem['VISIB'] ?? null),
+            'wind_speed' => $this->toFloatOrNull($sanitizedItem['WDSP'] ?? null),
+            'percipation' => $this->toFloatOrNull($sanitizedItem['PRCP'] ?? null),
+            'snow_depth' => $this->toFloatOrNull($sanitizedItem['SNDP'] ?? null),
+            'cloud_cover' => $this->toFloatOrNull($sanitizedItem['CLDC'] ?? null),
+            'wind_direction' => $this->toIntOrNull($sanitizedItem['WNDDIR'] ?? null),
+            'conditions' => $sanitizedItem['FRSHTT'] ?? null,
         ]);
 
         return $measurement;
@@ -91,14 +92,14 @@ class MeasurementIngestService
             return;
         }
 
-        $expected = $this->extrapolateFromPrevious30($measurement, "temperature");
+        $expected = $this->extrapolateFromPrevious30($measurement, 'temperature');
         if ($expected === null) {
             return;
         }
 
         $actual = $measurement->temperature;
 
-        if (!$this->isFiniteNumber($expected) || !$this->isFiniteNumber($actual)) {
+        if (! $this->isFiniteNumber($expected) || ! $this->isFiniteNumber($actual)) {
             return;
         }
 
@@ -127,7 +128,7 @@ class MeasurementIngestService
 
     private function recordMissingFieldCorrection(Measurement $measurement, string $field): void
     {
-        $originalMeasurement = new OriginalMeasurement();
+        $originalMeasurement = new OriginalMeasurement;
         $originalMeasurement->missing_field = $field;
         $originalMeasurement->corrected_measurement = $measurement->id;
         $originalMeasurement->save();
@@ -135,7 +136,7 @@ class MeasurementIngestService
 
     private function recordInvalidTemperatureCorrection(Measurement $measurement, float $invalidTemperature): void
     {
-        $originalMeasurement = new OriginalMeasurement();
+        $originalMeasurement = new OriginalMeasurement;
         $originalMeasurement->invalid_temperature = $invalidTemperature;
         $originalMeasurement->corrected_measurement = $measurement->id;
         $originalMeasurement->save();
@@ -143,7 +144,7 @@ class MeasurementIngestService
 
     private function extrapolateFromPrevious30(Measurement $measurement, string $field): ?float
     {
-        if (!$this->isNumericField($field)) {
+        if (! $this->isNumericField($field)) {
             return null;
         }
 
@@ -154,19 +155,19 @@ class MeasurementIngestService
 
         $query = new Measurement()->newModelQuery();
 
-        $query->where("station", $station);
+        $query->where('station', $station);
 
         $query->where(function ($q) use ($measurement) {
-            $q->where("date", "<", $measurement->date)->orWhere(function ($q2) use ($measurement) {
-                $q2->where("date", "=", $measurement->date)->where("time", "<", $measurement->time);
+            $q->where('date', '<', $measurement->date)->orWhere(function ($q2) use ($measurement) {
+                $q2->where('date', '=', $measurement->date)->where('time', '<', $measurement->time);
             });
         });
 
         if ($measurement->id !== null) {
-            $query->where("id", "<>", $measurement->id);
+            $query->where('id', '<>', $measurement->id);
         }
 
-        $history = $query->orderBy("date", "desc")->orderBy("time", "desc")->orderBy("id", "desc")->limit(self::HISTORY_WINDOW)->get();
+        $history = $query->orderBy('date', 'desc')->orderBy('time', 'desc')->orderBy('id', 'desc')->limit(self::HISTORY_WINDOW)->get();
 
         if ($history->count() < self::HISTORY_WINDOW) {
             return null;
@@ -179,11 +180,11 @@ class MeasurementIngestService
             if ($v === null) {
                 continue;
             }
-            if (!is_int($v) && !is_float($v)) {
+            if (! is_int($v) && ! is_float($v)) {
                 continue;
             }
             $vf = (float) $v;
-            if (!is_finite($vf)) {
+            if (! is_finite($vf)) {
                 continue;
             }
 
@@ -208,7 +209,7 @@ class MeasurementIngestService
     {
         return in_array(
             $field,
-            ["temperature", "dewpoint_temperature", "air_pressure_station", "air_pressure_sea_level", "visibility", "wind_speed", "percipation", "snow_depth", "cloud_cover", "wind_direction"],
+            ['temperature', 'dewpoint_temperature', 'air_pressure_station', 'air_pressure_sea_level', 'visibility', 'wind_speed', 'percipation', 'snow_depth', 'cloud_cover', 'wind_direction'],
             true,
         );
     }
@@ -226,10 +227,11 @@ class MeasurementIngestService
         }
         if (is_string($value)) {
             $trimmed = trim($value);
-            if ($trimmed === "" || !is_numeric($trimmed)) {
+            if ($trimmed === '' || ! is_numeric($trimmed)) {
                 return null;
             }
             $f = (float) $trimmed;
+
             return is_finite($f) ? $f : null;
         }
 
@@ -246,13 +248,15 @@ class MeasurementIngestService
         }
         if (is_float($value)) {
             $i = (int) $value;
+
             return $i;
         }
         if (is_string($value)) {
             $trimmed = trim($value);
-            if ($trimmed === "" || !is_numeric($trimmed)) {
+            if ($trimmed === '' || ! is_numeric($trimmed)) {
                 return null;
             }
+
             return (int) $trimmed;
         }
 
@@ -261,7 +265,7 @@ class MeasurementIngestService
 
     private function isFiniteNumber(mixed $value): bool
     {
-        if (!is_float($value) && !is_int($value)) {
+        if (! is_float($value) && ! is_int($value)) {
             return false;
         }
 
@@ -276,6 +280,7 @@ class MeasurementIngestService
         if ($value > $max) {
             return $max;
         }
+
         return $value;
     }
 }

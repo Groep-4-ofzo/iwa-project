@@ -2,29 +2,25 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Middleware\RedirectIfAuthenticated;
 
 class LoginRegisterController extends Controller
 {
     /**
      * Instantiate a new LoginRegisterController instance.
      */
-    public function __construct()
-    {
-
-
-    }
+    public function __construct() {}
 
     /**
      * Display a login form.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function login()
     {
@@ -34,19 +30,18 @@ class LoginRegisterController extends Controller
     /**
      * Authenticate the user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
-        if(Auth::attempt($credentials))
-        {
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
             return redirect()->route('admin.dashboard')
                 ->withSuccess('Je bent nu ingelogd!');
         }
@@ -60,45 +55,42 @@ class LoginRegisterController extends Controller
     /**
      * Display a dashboard to authenticated users.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function dashboard()
     {
-        if(Auth::check())
-        {
+        if (Auth::check()) {
             $quote = Inspiring::quote();
+
             return view('admin.dashboard', compact('quote'));
         }
 
         return redirect()->route('login')
             ->withErrors([
-            'email' => 'Log in op bij het administrator paneel te komen.',
-        ])->onlyInput('email');
+                'email' => 'Log in op bij het administrator paneel te komen.',
+            ])->onlyInput('email');
     }
 
     /**
      * Log out the user from application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('login')
-            ->withSuccess('Je bent nu ingelogd!');;
+            ->withSuccess('Je bent nu ingelogd!');
 
     }
-
-
 
     /**
      * Store a new user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -111,7 +103,7 @@ class LoginRegisterController extends Controller
         $request->validate([
             'name' => 'required|string|max:250',
             'email' => 'required|email|max:250|unique:users',
-            'password' => 'required|min:8|confirmed'
+            'password' => 'required|min:8|confirmed',
         ]);
 
         User::create([
@@ -119,14 +111,14 @@ class LoginRegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_role' => $request->user_role,
-            'employee_code' => 'TEMP001'
+            'employee_code' => 'TEMP001',
         ]);
 
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $request->session()->regenerate();
-        return redirect()->route('admin.dashboard')
-        ->withSuccess('U bent nu geregistreerd en ingelogd!');
-    }
 
+        return redirect()->route('admin.dashboard')
+            ->withSuccess('U bent nu geregistreerd en ingelogd!');
+    }
 }

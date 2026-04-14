@@ -62,7 +62,6 @@
         </nav>
     </aside>
 
-
     <div class="flex-1 flex flex-col">
 
         <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
@@ -88,13 +87,9 @@
 
             </div>
         </header>
-
-
         <main class="flex-1 p-6 overflow-y-auto">
             @yield('content')
         </main>
-
-
     </div>
     </body>
 </html>

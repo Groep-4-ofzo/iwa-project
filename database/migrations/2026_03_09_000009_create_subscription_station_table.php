@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-require_once __DIR__ . '/BaseMigration.php'; 
+
+require_once __DIR__.'/BaseMigration.php';
+
 return new class extends BaseMigration
 {
     /**
@@ -13,7 +12,7 @@ return new class extends BaseMigration
      */
     protected array $dependencies = [
         '2026_03_09_000007_create_subscriptions_table' => 'subscriptions',
-        '2026_03_09_000002_create_station_table' => 'stations'
+        '2026_03_09_000002_create_station_table' => 'stations',
     ];
 
     public function up(): void
@@ -23,7 +22,6 @@ return new class extends BaseMigration
             $table->string('station', 10);
             $table->primary(['subscription', 'station']);
             $table->index('station', 'idx_station_subscription');
-
 
             $table->foreign('subscription')
                 ->references('id')

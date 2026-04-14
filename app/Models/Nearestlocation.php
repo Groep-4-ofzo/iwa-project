@@ -8,12 +8,13 @@ class Nearestlocation extends Model
 {
     //
     protected $table = 'nearestlocation';
+
     protected $fillable = [
         'name',
         'administrative_region1',
         'administrative_region2',
         'longitude',
-        'latitude'
+        'latitude',
     ];
 
     public function country()

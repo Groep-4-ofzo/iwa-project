@@ -3,10 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Models\EndpointActivity;
-use App\Models\Subscription;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class LogApiRequests
@@ -14,7 +12,7 @@ class LogApiRequests
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -29,7 +27,7 @@ class LogApiRequests
             'activity_date' => now()->toDateString(),
             'activity_time' => now()->toTimeString(),
             'authorized' => $subscription ? 1 : 0,
-            'data_transferred' => strlen($response->getContent())
+            'data_transferred' => strlen($response->getContent()),
         ]);
 
         return $response;

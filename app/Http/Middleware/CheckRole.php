@@ -12,12 +12,12 @@ class CheckRole
     {
         $user = auth()->user();
 
-        if (!$user || !$user->userRole) {
+        if (! $user || ! $user->userRole) {
             abort(403, 'Geen toegang.');
         }
 
         // Meerdere rollen mogelijk: 'role:admin,manager'
-        if (!in_array($user->userRole->role, $roles)) {
+        if (! in_array($user->userRole->role, $roles)) {
             abort(403, 'Geen toegang.');
         }
 

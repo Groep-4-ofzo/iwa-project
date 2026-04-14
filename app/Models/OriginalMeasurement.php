@@ -9,9 +9,9 @@ class OriginalMeasurement extends Model
 {
     public $timestamps = false;
 
-    protected $table = "original_measurement";
+    protected $table = 'original_measurement';
 
-    protected $fillable = ["corrected_measurement", "missing_field", "invalid_temperature"];
+    protected $fillable = ['corrected_measurement', 'missing_field', 'invalid_temperature'];
 
     public function measurement(): BelongsTo
     {

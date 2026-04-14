@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Query;
 use App\Models\Measurement;
+use App\Models\Query;
 use App\Models\Station;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class WeatherController extends Controller
 {
@@ -16,24 +16,23 @@ class WeatherController extends Controller
         $subscription = $request->attributes->get('subscription');
         $query_id = $request->query_id;
 
-        if (!$subscription) {
+        if (! $subscription) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         $type = $subscription->subscriptionType;
         $contract = $subscription->contract;
 
-        if (!$contract) {
+        if (! $contract) {
             return response()->json(['error' => 'No contract found'], 404);
         }
 
         $query = Query::where([
             ['contract_id', $contract->id],
-            ['id', (int) $query_id]
+            ['id', (int) $query_id],
         ])->first();
 
-
-        if (!$query) {
+        if (! $query) {
             return response()->json(['error' => 'No query found'], 404);
         }
 
@@ -42,7 +41,7 @@ class WeatherController extends Controller
 
         $canPullNewData = false;
 
-        if (!$lastPull) {
+        if (! $lastPull) {
             $canPullNewData = true;
         } else {
             if ($type->frequency_in_hours) {
@@ -60,11 +59,11 @@ class WeatherController extends Controller
             }
         }
 
-        if (!$canPullNewData) {
+        if (! $canPullNewData) {
             return response()->json([
                 'new_data' => false,
                 'message' => 'No new data available yet',
-                'last_pull' => $lastPull
+                'last_pull' => $lastPull,
             ]);
         }
 
@@ -114,7 +113,7 @@ class WeatherController extends Controller
         if (empty($stations)) {
             return response()->json([
                 'new_data' => false,
-                'message' => 'No stations linked to this subscription'
+                'message' => 'No stations linked to this subscription',
             ]);
         }
 
@@ -143,7 +142,7 @@ class WeatherController extends Controller
         return response()->json([
             'new_data' => true,
             'count' => $data->count(),
-            'data' => $data
+            'data' => $data,
         ]);
     }
 }

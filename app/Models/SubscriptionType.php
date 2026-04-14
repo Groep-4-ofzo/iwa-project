@@ -8,7 +8,9 @@ class SubscriptionType extends Model
 {
     //
     public $timestamps = false;
+
     protected $table = 'subscription_types';
+
     protected $fillable = [
         'name',
         'description',
@@ -17,6 +19,6 @@ class SubscriptionType extends Model
         'frequency_in_days',
         'continuous',
         'price_per_station',
-        'valid_through'
+        'valid_through',
     ];
 }

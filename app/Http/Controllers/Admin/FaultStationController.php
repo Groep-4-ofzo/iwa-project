@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\OriginalMeasurement;
 use App\Models\Measurement;
+use App\Models\OriginalMeasurement;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 
@@ -17,17 +17,17 @@ class FaultStationController extends Controller
 
         $tsSql = "STR_TO_DATE(CONCAT(measurement.date,' ',measurement.time), '%Y-%m-%d %H:%i:%s')";
 
-        $startStr = $start->format("Y-m-d H:i:s");
-        $endStr = $now->format("Y-m-d H:i:s");
+        $startStr = $start->format('Y-m-d H:i:s');
+        $endStr = $now->format('Y-m-d H:i:s');
 
         $totalMeasurements = (int) Measurement::query()
-            ->where("station", $station)
+            ->where('station', $station)
             ->whereRaw("$tsSql BETWEEN ? AND ?", [$startStr, $endStr])
             ->count();
 
         $faultsQuery = OriginalMeasurement::query()
-            ->join("measurement", "original_measurement.corrected_measurement", "=", "measurement.id")
-            ->where("measurement.station", $station)
+            ->join('measurement', 'original_measurement.corrected_measurement', '=', 'measurement.id')
+            ->where('measurement.station', $station)
             ->whereRaw("$tsSql BETWEEN ? AND ?", [$startStr, $endStr]);
 
         $totalFaults = (int) (clone $faultsQuery)->count();
@@ -39,12 +39,12 @@ class FaultStationController extends Controller
 
         $rawBuckets = (clone $faultsQuery)
             ->selectRaw("$bucketTsSql as bucket_ts", [$bucketMinutes, $bucketMinutes])
-            ->selectRaw("COUNT(*) as total_faults")
-            ->groupBy("bucket_ts")
-            ->orderBy("bucket_ts")
+            ->selectRaw('COUNT(*) as total_faults')
+            ->groupBy('bucket_ts')
+            ->orderBy('bucket_ts')
             ->get();
 
-        $dataByTs = $rawBuckets->keyBy("bucket_ts");
+        $dataByTs = $rawBuckets->keyBy('bucket_ts');
 
         $filled = [];
         $cursor = $start->copy()->second(0);
@@ -53,10 +53,10 @@ class FaultStationController extends Controller
         $stepSeconds = $bucketMinutes * 60;
 
         while ($cursor->lessThanOrEqualTo($now)) {
-            $ts = $cursor->format("Y-m-d H:i:00");
+            $ts = $cursor->format('Y-m-d H:i:00');
             $filled[] = [
-                "x" => $ts,
-                "y" => (int) ($dataByTs[$ts]->total_faults ?? 0),
+                'x' => $ts,
+                'y' => (int) ($dataByTs[$ts]->total_faults ?? 0),
             ];
             $cursor->addSeconds($stepSeconds);
         }
@@ -72,51 +72,51 @@ class FaultStationController extends Controller
                 COUNT(*) as total
             ",
             )
-            ->groupBy("fault_type")
-            ->orderByDesc("total")
+            ->groupBy('fault_type')
+            ->orderByDesc('total')
             ->get();
 
         $recentFaults = (clone $faultsQuery)
-            ->select("measurement.date", "measurement.time", "original_measurement.missing_field", "original_measurement.invalid_temperature", "measurement.temperature")
-            ->orderByDesc("measurement.date")
-            ->orderByDesc("measurement.time")
+            ->select('measurement.date', 'measurement.time', 'original_measurement.missing_field', 'original_measurement.invalid_temperature', 'measurement.temperature')
+            ->orderByDesc('measurement.date')
+            ->orderByDesc('measurement.time')
             ->limit(25)
             ->get()
             ->map(function ($row) {
-                $type = "Unknown";
+                $type = 'Unknown';
                 $details = null;
                 $correctedValue = null;
 
-                if (!is_null($row->missing_field)) {
-                    $type = "Missing Field";
+                if (! is_null($row->missing_field)) {
+                    $type = 'Missing Field';
                     $details = $row->missing_field;
-                } elseif (!is_null($row->invalid_temperature)) {
-                    $type = "Invalid Temperature";
+                } elseif (! is_null($row->invalid_temperature)) {
+                    $type = 'Invalid Temperature';
                     $details = $row->invalid_temperature;
                     $correctedValue = $row->temperature;
                 }
 
                 return [
-                    "date" => $row->date,
-                    "time" => $row->time,
-                    "fault_type" => $type,
-                    "details" => $details,
-                    "corrected_value" => $correctedValue,
+                    'date' => $row->date,
+                    'time' => $row->time,
+                    'fault_type' => $type,
+                    'details' => $details,
+                    'corrected_value' => $correctedValue,
                 ];
             });
 
         $pastHour = [
-            "total_measurements" => $totalMeasurements,
-            "faults" => $totalFaults,
-            "faultCountBy5Minutes" => [
-                "label" => "Faults",
-                "data" => $filled,
-                "borderColor" => "rgba(59, 130, 246, 1)",
-                "backgroundColor" => "rgba(59, 130, 246, 0.15)",
-                "fill" => true,
+            'total_measurements' => $totalMeasurements,
+            'faults' => $totalFaults,
+            'faultCountBy5Minutes' => [
+                'label' => 'Faults',
+                'data' => $filled,
+                'borderColor' => 'rgba(59, 130, 246, 1)',
+                'backgroundColor' => 'rgba(59, 130, 246, 0.15)',
+                'fill' => true,
             ],
         ];
 
-        return view("admin.faults.station", compact("station", "pastHour", "faultTypeBreakdown", "recentFaults"));
+        return view('admin.faults.station', compact('station', 'pastHour', 'faultTypeBreakdown', 'recentFaults'));
     }
 }

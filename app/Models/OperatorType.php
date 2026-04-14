@@ -11,6 +11,6 @@ class OperatorType extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'omschrijving'
+        'omschrijving',
     ];
 }

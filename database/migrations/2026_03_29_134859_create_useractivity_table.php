@@ -1,20 +1,17 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-
-
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-require_once __DIR__ . '/BaseMigration.php'; 
+
+require_once __DIR__.'/BaseMigration.php';
+
 return new class extends BaseMigration
 {
     /**
      * Run the migrations.
      */
-
     protected array $dependencies = [
-        '2026_03_06_000001_create_users_table' => 'users'
+        '2026_03_06_000001_create_users_table' => 'users',
     ];
 
     public function up(): void
@@ -35,8 +32,6 @@ return new class extends BaseMigration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-
-
         });
     }
 

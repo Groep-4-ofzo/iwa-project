@@ -11,6 +11,6 @@ class ComparisonOperatorType extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'omschrijving'
+        'omschrijving',
     ];
 }

@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SubscriptionStation extends Model
 {
     //
     protected $table = 'subscription_station';
+
     protected $fillable = ['station', 'subscription'];
+
     public $timestamps = false;
 
     public function getStation()

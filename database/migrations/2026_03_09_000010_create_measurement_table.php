@@ -1,20 +1,19 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-require_once __DIR__ . '/BaseMigration.php'; 
+
+require_once __DIR__.'/BaseMigration.php';
+
 return new class extends BaseMigration
 {
     /**
      * Run the migrations.
      */
-
     protected array $dependencies = [
-        '2026_03_09_000002_create_station_table' => 'stations'
+        '2026_03_09_000002_create_station_table' => 'stations',
     ];
+
     public function up(): void
     {
         Schema::createIfNotExists('measurement', function (Blueprint $table) {
@@ -41,7 +40,6 @@ return new class extends BaseMigration
                 ->on('station')
                 ->onUpdate('restrict')
                 ->onDelete('restrict');
-            
 
             $table->charset = 'utf16';
             $table->collation = 'utf16_unicode_ci';

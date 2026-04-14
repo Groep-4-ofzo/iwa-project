@@ -8,6 +8,7 @@ class Relation extends Model
 {
     //
     protected $table = 'relations';
+
     protected $fillable = [
         'name',
         'first_name',
@@ -16,7 +17,7 @@ class Relation extends Model
         'function',
         'title',
         'email',
-        'phone'
+        'phone',
     ];
 
     public function company()

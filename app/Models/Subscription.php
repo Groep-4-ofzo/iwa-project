@@ -8,7 +8,9 @@ class Subscription extends Model
 {
     //
     public $timestamps = false;
+
     protected $table = 'subscriptions';
+
     protected $fillable = [
         'start_date',
         'end_date',
@@ -17,7 +19,7 @@ class Subscription extends Model
         'identifier',
         'token',
         'company',
-        'type'
+        'type',
     ];
 
     public function getCompany() // moet ik nog bespreken

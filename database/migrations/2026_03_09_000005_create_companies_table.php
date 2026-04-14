@@ -1,21 +1,18 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-require_once __DIR__ . '/BaseMigration.php'; 
+
+require_once __DIR__.'/BaseMigration.php';
+
 return new class extends BaseMigration
 {
     /**
      * Run the migrations.
      */
-
     protected array $dependencies = [
         '2026_03_09_000001_create_country_table' => 'country',
     ];
-
 
     public function up(): void
     {
@@ -29,11 +26,11 @@ return new class extends BaseMigration
             $table->string('zip_code', 25)->nullable();
             $table->string('country', 2);
             $table->string('email', 100)->nullable();
-            
+
             $table->foreign('country', 'fk_company_country')
                 ->references('country_code')
                 ->on('country');
-            
+
             $table->index('country', 'idx_company_country_idx');
 
             $table->charset = 'utf16';
