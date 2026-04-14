@@ -21,9 +21,6 @@
             <h1 class="text-xl font-bold text-gray-800">IWA Panel</h1>
         </div>
         <nav class="flex-1 px-2 py-4 space-y-1">
-            <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.dashboard') ? 'bg-gray-200 font-semibold' : '' }}">
-                Dashboard
-            </a>
             @role('Administrator')
             <a href="{{ route('admin.users.index') }}" class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->routeIs('admin.users.*') ? 'bg-gray-200 font-semibold' : '' }}">
                 Users

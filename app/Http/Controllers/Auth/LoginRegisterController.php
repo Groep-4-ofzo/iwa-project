@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -54,8 +55,8 @@ class LoginRegisterController extends Controller
             'email' => 'Wachtwoord of e-mail adres is onjuist.',
         ])->onlyInput('email');
 
-    } 
-    
+    }
+
     /**
      * Display a dashboard to authenticated users.
      *
@@ -65,15 +66,16 @@ class LoginRegisterController extends Controller
     {
         if(Auth::check())
         {
-            return view('admin.dashboard');
+            $quote = Inspiring::quote();
+            return view('admin.dashboard', compact('quote'));
         }
-        
+
         return redirect()->route('login')
             ->withErrors([
             'email' => 'Log in op bij het administrator paneel te komen.',
         ])->onlyInput('email');
-    } 
-    
+    }
+
     /**
      * Log out the user from application.
      *
@@ -87,9 +89,9 @@ class LoginRegisterController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('login')
             ->withSuccess('Je bent nu ingelogd!');;
-        
-    }   
-    
+
+    }
+
 
 
     /**
@@ -104,7 +106,7 @@ class LoginRegisterController extends Controller
 
         // if (!$tableIsEmpty){
         //     return redirect()->route('login');
-        // } 
+        // }
 
         $request->validate([
             'name' => 'required|string|max:250',
@@ -117,7 +119,7 @@ class LoginRegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_role' => $request->user_role,
-            'employee_code' => 'TEMP001'    
+            'employee_code' => 'TEMP001'
         ]);
 
         $credentials = $request->only('email', 'password');
