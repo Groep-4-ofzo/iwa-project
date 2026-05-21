@@ -6,9 +6,19 @@ use App\Http\Controllers\Api\StationController;
 use App\Http\Controllers\Api\GeneratorController;
 use App\Http\Controllers\Api\WeatherController;
 use App\Http\Controllers\Api\AppUserController;
+use App\Http\Controllers\Api\AuthController;
+
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
+
+Route::post('login', [AuthController::class, 'login']);
+
+Route::middleware(['auth:api'])->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('me', [AuthController::class, 'me']);
+});
 
 Route::middleware(['api.auth', 'api.log'])->group(function () {
     Route::get("/measurement", [MeasurementController::class, "index"]);
