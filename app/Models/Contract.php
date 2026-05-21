@@ -17,4 +17,5 @@ class Contract extends Model
         'eind_datum',
         'url',
     ];
+
 }
