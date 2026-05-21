@@ -8,30 +8,32 @@ use App\Http\Controllers\Api\WeatherController;
 use App\Http\Controllers\Api\AppUserController;
 use App\Http\Controllers\Api\AuthController;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 
-Route::post('login', [AuthController::class, 'login']);
+Route::prefix('contracten')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware(['auth:api'])->group(function () {
-    Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('refresh', [AuthController::class, 'refresh']);
-    Route::post('me', [AuthController::class, 'me']);
+    Route::middleware(['auth:api'])->group(function () {
+        // Routes for JWT Authentication
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/refresh', [AuthController::class, 'refresh']);
+        Route::post('/me', [AuthController::class, 'me']);
+
+
+        // Routes for /contracten/etc
+        Route::get("/{identifier}/users", [AppUserController::class, "index"]);
+        Route::post("/{identifier}/user", [AppUserController::class, "store"]);
+        Route::get("/{identifier}/user/{user_identifier}", [AppUserController::class, "show"]);
+        Route::delete("/{identifier}/user/{user_identifier}", [AppUserController::class, "delete"]);
+        Route::put("/{identifier}/user/{user_identifier}", [AppUserController::class, "update"]);
+    });
 });
 
 Route::middleware(['api.auth', 'api.log'])->group(function () {
     Route::get("/measurement", [MeasurementController::class, "index"]);
     Route::get('/station/{station}', [StationController::class, "show"]);
     Route::get('/weather', [WeatherController::class, 'getWeather']);
-});
-
-Route::middleware(['api.auth', 'api.log'])->group(function () {
-    Route::get("/contract/{identifier}/users", [AppUserController::class, "index"]);
-    Route::post("/contract/{identifier}/users", [AppUserController::class, "store"]);
-    Route::get("/contract/{identifier}/users/{user_identifier}", [AppUserController::class, "show"]);
-    Route::delete("/contract/{identifier}/users/{user_identifier}", [AppUserController::class, "delete"]);
-    Route::put("/contract/{identifier}/users/{user-identifier}", [AppUserController::class, "update"]);
 });
 
 Route::middleware(['web', 'auth', 'role:Administrator'])->group(function () { // nog even vragen aan riemer

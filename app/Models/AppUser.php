@@ -31,6 +31,10 @@ class AppUser extends Authenticatable implements JWTSubject
         'contract_id',
     ];
 
+    protected $hidden = [
+        'password',
+    ];
+
     public function contract()
     {
         return $this->belongsTo(Contract::class, 'contract_id');

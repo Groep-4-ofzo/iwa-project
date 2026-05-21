@@ -38,7 +38,6 @@ class AppUserController extends Controller
             'identifier' => 'required|string|max:10|unique:app_users',
             'password' => 'required|string|min:8',
             'role' => 'required|in:admin,user',
-            'contract_id' => 'nullable|exists:contract,id',
         ]);
 
         AppUser::create([
