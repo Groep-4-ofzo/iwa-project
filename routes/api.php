@@ -33,6 +33,7 @@ Route::prefix('contracten')->group(function () {
 Route::middleware(['api.auth', 'api.log'])->group(function () {
     Route::get("/measurement", [MeasurementController::class, "index"]);
     Route::get('/station/{station}', [StationController::class, "show"]);
+
     Route::get('/weather', [WeatherController::class, 'getWeather']);
 });
 
@@ -43,3 +44,8 @@ Route::middleware(['web', 'auth', 'role:Administrator'])->group(function () { //
 Route::middleware(["api.gen"])->group(function () {
     Route::post("/measurement", [GeneratorController::class, "store"]);
 });
+
+Route::get('/stations/nearest', [
+    StationController::class,
+    'stationsByNearestLocation'
+]);
