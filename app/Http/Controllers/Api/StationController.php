@@ -41,7 +41,7 @@ class StationController extends Controller
         ) AS distance_meters
     ", [$longitude, $latitude])
             ->orderBy('distance_meters')
-            ->limit(10)
+            ->limit(1)
             ->get();
         return response()->json($stations);
     }
