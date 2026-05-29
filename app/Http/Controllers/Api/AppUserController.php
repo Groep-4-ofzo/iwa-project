@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\AppUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AppUserController extends Controller
 {
@@ -45,7 +46,7 @@ class AppUserController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'identifier' => $request->identifier,
-            'password' => bcrypt($request->password),
+            'password' => Hash::make($request->password),
             'role' => $request->role,
             'contract_id' => $contractId,
         ]);

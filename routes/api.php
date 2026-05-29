@@ -7,12 +7,14 @@ use App\Http\Controllers\Api\GeneratorController;
 use App\Http\Controllers\Api\WeatherController;
 use App\Http\Controllers\Api\AppUserController;
 use App\Http\Controllers\Api\AuthController;
-
+use App\Http\Controllers\Api\QueryController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('contracten')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post("/{identifier}/user", [AppUserController::class, "store"]);
+
 
     Route::middleware(['auth:api'])->group(function () {
         // Routes for JWT Authentication
@@ -23,10 +25,15 @@ Route::prefix('contracten')->group(function () {
 
         // Routes for /contracten/etc
         Route::get("/{identifier}/users", [AppUserController::class, "index"]);
-        Route::post("/{identifier}/user", [AppUserController::class, "store"]);
+
         Route::get("/{identifier}/user/{user_identifier}", [AppUserController::class, "show"]);
         Route::delete("/{identifier}/user/{user_identifier}", [AppUserController::class, "delete"]);
         Route::put("/{identifier}/user/{user_identifier}", [AppUserController::class, "update"]);
+
+
+        // Routes query
+        Route::get('/{identifier}/{queryID}', [QueryController::class, 'show']);
+        Route::get('/{identifier}/{queryID}/stations', [QueryController::class, 'getStations']);
     });
 });
 
