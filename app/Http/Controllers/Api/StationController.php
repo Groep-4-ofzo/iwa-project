@@ -5,17 +5,31 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Station;
 use Illuminate\Http\Request;
+use App\Models\Nearestlocation;
 use Illuminate\Support\Facades\DB;
 
 
 class StationController extends Controller
 {
-    public function show($station)
+    public function show(Request $request)
     {
-        $data = Station::with(['geolocation.country', 'nearestlocation.country'])
-            ->findOrFail($station);
+        $stationName = $request->route('name');
+        $contractId = $request->route('identifier');
 
-        return response()->json($data);
+        $data = Station::with('nearestlocation.country')
+            ->where('name', $stationName)
+            ->first();
+        
+        $nearestLocation = $data->nearestlocation[0] ?? null;
+
+        $dataOfAdminRegion1 = Nearestlocation::where('administrative_region1', $nearestLocation->administrative_region1)->get();
+        $dataOfAdminRegion2 = Nearestlocation::where('administrative_region2', $nearestLocation->administrative_region2)->get();
+        $response = [
+            'station' => $data,
+            'same_admin_region1' => $dataOfAdminRegion1,
+            'same_admin_region2' => $dataOfAdminRegion2,
+        ];
+        return response()->json($response);
     }
 
     public function stationsByNearestLocation(Request $request)

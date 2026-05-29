@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('contracten')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post("/{identifier}/user", [AppUserController::class, "store"]);
-
+    Route::get('/{identifier}/station/{name}', [StationController::class, "show"]);
 
     Route::middleware(['auth:api'])->group(function () {
         // Routes for JWT Authentication
