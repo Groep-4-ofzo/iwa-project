@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('contracten')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post("/{identifier}/user", [AppUserController::class, "store"]);
-    Route::get('/{identifier}/station/{name}', [StationController::class, "show"]);
+
 
     Route::middleware(['auth:api'])->group(function () {
         // Routes for JWT Authentication
@@ -34,6 +34,12 @@ Route::prefix('contracten')->group(function () {
         // Routes query
         Route::get('/{identifier}/{queryID}', [QueryController::class, 'show']);
         Route::get('/{identifier}/{queryID}/stations', [QueryController::class, 'getStations']);
+
+        // Routes Stations
+        Route::get('/{identifier}/station/{name}', [StationController::class, "show"]);
+
+        // Routes Measurements
+        Route::get("/{identifier}/station/{name}/measurements", [MeasurementController::class, "index"]);
     });
 });
 

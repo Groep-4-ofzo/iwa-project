@@ -6,22 +6,38 @@ use App\Http\Controllers\Controller;
 use App\Models\Station;
 use Illuminate\Http\Request;
 use App\Models\Nearestlocation;
+use App\Models\Query;
 use Illuminate\Support\Facades\DB;
+use App\Services\QueryRecordFilterService;
 
 
 class StationController extends Controller
 {
+
     public function show(Request $request)
     {
         $stationName = $request->route('name');
         $contractId = $request->route('identifier');
+        
+        $queryRecord = Query::with('groups.criteria.type')
+            ->where('contract_id', $contractId)
+            ->first();
 
-        $data = Station::with('nearestlocation.country')
+        $sql = Station::query();
+
+        $filterService = new QueryRecordFilterService();
+
+        $sql = $filterService->apply($sql, $queryRecord);
+
+        $data = $sql->with('nearestlocation.country')
             ->where('name', $stationName)
             ->first();
-        
-        $nearestLocation = $data->nearestlocation[0] ?? null;
+ 
 
+        $nearestLocation = $data->nearestlocation[0] ?? null;
+        if (! $nearestLocation) {
+            return response()->json($data);
+        }
         $dataOfAdminRegion1 = Nearestlocation::where('administrative_region1', $nearestLocation->administrative_region1)->get();
         $dataOfAdminRegion2 = Nearestlocation::where('administrative_region2', $nearestLocation->administrative_region2)->get();
         $response = [
@@ -29,6 +45,7 @@ class StationController extends Controller
             'same_admin_region1' => $dataOfAdminRegion1,
             'same_admin_region2' => $dataOfAdminRegion2,
         ];
+
         return response()->json($response);
     }
 
