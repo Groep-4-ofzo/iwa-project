@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('contracten')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post("/{identifier}/user", [AppUserController::class, "store"]);
-
+    
+    
 
     Route::middleware(['auth:api'])->group(function () {
         // Routes for JWT Authentication
@@ -36,8 +37,8 @@ Route::prefix('contracten')->group(function () {
         Route::get('/{identifier}/{queryID}/stations', [QueryController::class, 'getStations']);
 
         // Routes Stations
+        Route::get('/{identifier}/stations/nearest', [StationController::class, 'stationsByNearestLocation']);
         Route::get('/{identifier}/station/{name}', [StationController::class, "show"]);
-
         // Routes Measurements
         Route::get("/{identifier}/station/{name}/measurements", [MeasurementController::class, "index"]);
     });
@@ -57,8 +58,3 @@ Route::middleware(['web', 'auth', 'role:Administrator'])->group(function () { //
 Route::middleware(["api.gen"])->group(function () {
     Route::post("/measurement", [GeneratorController::class, "store"]);
 });
-
-Route::get('/stations/nearest', [
-    StationController::class,
-    'stationsByNearestLocation'
-]);
