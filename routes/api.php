@@ -37,7 +37,7 @@ Route::prefix('contracten')->group(function () {
         Route::get('/{identifier}/{queryID}/stations', [QueryController::class, 'getStations']);
 
         // Routes Stations
-        Route::get('/{identifier}/stations/nearest', [StationController::class, 'stationsByNearestLocation']);
+        Route::get('/{identifier}/station/nearest', [StationController::class, 'stationsByNearestLocation']);
         Route::get('/{identifier}/station/{name}', [StationController::class, "show"]);
         // Routes Measurements
         Route::get("/{identifier}/station/{name}/measurements", [MeasurementController::class, "index"]);
