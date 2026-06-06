@@ -80,22 +80,24 @@ class AppUserController extends Controller
         $request->validate([
             'first_name' => 'sometimes|required|string|max:100',
             'last_name' => 'sometimes|nullable|string|max:100',
-            'email' => 'sometimes|required|email|unique:app_users,email',
-            'identifier' => 'sometimes|required|string|max:10|unique:app_users,identifier',
-            'password' => 'sometimes|required|string|min:8',
+            'email' => 'sometimes|required|email',
+            'identifier' => 'sometimes|required|string|max:10',
+            'password' => 'sometimes|nullable|string|min:8',
             'role' => 'sometimes|required|in:admin,user',
-            'contract_id' => 'sometimes|nullable|exists:contracts,id',
         ]);
 
-        $user->update($request->only([
+        $userData = $request->only([
             'first_name',
             'last_name',
             'email',
             'identifier',
-            'password',
             'role',
-            'contract_id',
-        ]));
+        ]);
+
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->password);
+        }
+        $user->update($userData);
 
         return response()->json(['message' => 'User updated successfully'], 200);
     }

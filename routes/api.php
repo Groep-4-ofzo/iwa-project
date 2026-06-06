@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('contracten')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
-    Route::post("/{identifier}/user", [AppUserController::class, "store"]);
+    
     
     
 
@@ -26,7 +26,7 @@ Route::prefix('contracten')->group(function () {
 
         // Routes for /contracten/etc
         Route::get("/{identifier}/users", [AppUserController::class, "index"]);
-
+        Route::post("/{identifier}/user", [AppUserController::class, "store"]);
         Route::get("/{identifier}/user/{user_identifier}", [AppUserController::class, "show"]);
         Route::delete("/{identifier}/user/{user_identifier}", [AppUserController::class, "delete"]);
         Route::put("/{identifier}/user/{user_identifier}", [AppUserController::class, "update"]);
