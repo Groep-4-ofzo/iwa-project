@@ -10,18 +10,14 @@ use App\Models\Query;
 use Illuminate\Support\Facades\DB;
 use App\Services\QueryRecordFilterService;
 
-
 class StationController extends Controller
 {
-
     public function show(Request $request)
     {
-        $stationName = $request->route('name');
-        $contractId = $request->route('identifier');
+        $stationName = $request->route("name");
+        $contractId = $request->route("identifier");
 
-        $queryRecord = Query::with('groups.criteria.type')
-            ->where('contract_id', $contractId)
-            ->first();
+        $queryRecord = Query::with("groups.criteria.type")->where("contract_id", $contractId)->first();
 
         $sql = Station::query();
 
@@ -29,21 +25,18 @@ class StationController extends Controller
 
         $sql = $filterService->apply($sql, $queryRecord);
 
-        $data = $sql->with('nearestlocation.country')
-            ->where('name', $stationName)
-            ->first();
-
+        $data = $sql->with("nearestlocation.country")->where("name", $stationName)->first();
 
         $nearestLocation = $data->nearestlocation[0] ?? null;
-        if (! $nearestLocation) {
+        if (!$nearestLocation) {
             return response()->json($data);
         }
-        $dataOfAdminRegion1 = Nearestlocation::where('administrative_region1', $nearestLocation->administrative_region1)->get();
-        $dataOfAdminRegion2 = Nearestlocation::where('administrative_region2', $nearestLocation->administrative_region2)->get();
+        $dataOfAdminRegion1 = Nearestlocation::where("administrative_region1", $nearestLocation->administrative_region1)->get();
+        $dataOfAdminRegion2 = Nearestlocation::where("administrative_region2", $nearestLocation->administrative_region2)->get();
         $response = [
-            'station' => $data,
-            'same_admin_region1' => $dataOfAdminRegion1,
-            'same_admin_region2' => $dataOfAdminRegion2,
+            "station" => $data,
+            "same_admin_region1" => $dataOfAdminRegion1,
+            "same_admin_region2" => $dataOfAdminRegion2,
         ];
 
         return response()->json($response);
@@ -51,34 +44,34 @@ class StationController extends Controller
 
     public function stationsByNearestLocation(Request $request)
     {
-        $contractId = $request->route('identifier');
+        $contractId = $request->route("identifier");
         $request->validate([
-            'latitude'  => 'required|numeric',
-            'longitude' => 'required|numeric',
+            "latitude" => "required|numeric",
+            "longitude" => "required|numeric",
         ]);
 
         $latitude = $request->latitude;
         $longitude = $request->longitude;
 
-        $queryRecord = Query::with('groups.criteria.type')
-            ->where('contract_id', $contractId)
-            ->first();
+        $queryRecord = Query::with("groups.criteria.type")->where("contract_id", $contractId)->first();
 
         $nearestStations = Station::query()
-            ->join('nearestlocation as n', 'station.name', '=', 'n.station_name')
-            ->selectRaw("
-        station.name as station_name,
-        station.latitude,
-        station.longitude,
-        n.name as nearest_name,
-        n.country_code as country_code,
-        ST_Distance_Sphere(
-            POINT(station.longitude, station.latitude),
-            POINT(?, ?)
-        ) AS distance_meters
-    ", [$longitude, $latitude])
-            ->orderBy('distance_meters');
-
+            ->join("nearestlocation as n", "station.name", "=", "n.station_name")
+            ->selectRaw(
+                "
+            station.name as station_name,
+            station.latitude,
+            station.longitude,
+            n.name as nearest_name,
+            n.country_code as country_code,
+            ST_Distance_Sphere(
+                POINT(station.longitude, station.latitude),
+                POINT(?, ?)
+            ) AS distance_meters
+        ",
+                [$longitude, $latitude],
+            )
+            ->orderBy("distance_meters");
 
         $firstStation = $nearestStations->first();
 
@@ -90,7 +83,7 @@ class StationController extends Controller
 
         $grantedStations = $checkQuery->get()->toArray();
 
-        if (in_array($firstStation->station_name, array_column($grantedStations, 'name'))) {
+        if (in_array($firstStation->station_name, array_column($grantedStations, "name"))) {
             $station = $firstStation;
         } else {
             $station = null;
