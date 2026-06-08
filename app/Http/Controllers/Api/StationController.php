@@ -44,55 +44,51 @@ class StationController extends Controller
 
     public function stationsByNearestLocation(Request $request)
     {
-        return response()->json([
-            "message" => "hallo",
+        $contractId = $request->route("identifier");
+        $request->validate([
+            "latitude" => "required|numeric",
+            "longitude" => "required|numeric",
         ]);
 
-        //     $contractId = $request->route("identifier");
-        //     $request->validate([
-        //         "latitude" => "required|numeric",
-        //         "longitude" => "required|numeric",
-        //     ]);
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
 
-        //     $latitude = $request->latitude;
-        //     $longitude = $request->longitude;
+        $queryRecord = Query::with("groups.criteria.type")->where("contract_id", $contractId)->first();
 
-        //     $queryRecord = Query::with("groups.criteria.type")->where("contract_id", $contractId)->first();
+        $nearestStations = Station::query()
+            ->join("nearestlocation as n", "station.name", "=", "n.station_name")
+            ->selectRaw(
+                "
+            station.name as station_name,
+            station.latitude,
+            station.longitude,
+            n.name as nearest_name,
+            n.country_code as country_code,
+            ST_Distance_Sphere(
+                POINT(station.longitude, station.latitude),
+                POINT(?, ?)
+            ) AS distance_meters
+        ",
+                [$longitude, $latitude],
+            )
+            ->orderBy("distance_meters");
 
-        //     $nearestStations = Station::query()
-        //         ->join("nearestlocation as n", "station.name", "=", "n.station_name")
-        //         ->selectRaw(
-        //             "
-        //     station.name as station_name,
-        //     station.latitude,
-        //     station.longitude,
-        //     n.name as nearest_name,
-        //     n.country_code as country_code,
-        //     ST_Distance_Sphere(
-        //         POINT(station.longitude, station.latitude),
-        //         POINT(?, ?)
-        //     ) AS distance_meters
-        // ",
-        //             [$longitude, $latitude],
-        //         )
-        //         ->orderBy("distance_meters");
+        $firstStation = $nearestStations->first();
 
-        //     $firstStation = $nearestStations->first();
+        $stationQuery = Station::query();
 
-        //     $stationQuery = Station::query();
+        $filterService = new QueryRecordFilterService();
 
-        //     $filterService = new QueryRecordFilterService();
+        $checkQuery = $filterService->apply($stationQuery, $queryRecord);
 
-        //     $checkQuery = $filterService->apply($stationQuery, $queryRecord);
+        $grantedStations = $checkQuery->get()->toArray();
 
-        //     $grantedStations = $checkQuery->get()->toArray();
+        if (in_array($firstStation->station_name, array_column($grantedStations, "name"))) {
+            $station = $firstStation;
+        } else {
+            $station = null;
+        }
 
-        //     if (in_array($firstStation->station_name, array_column($grantedStations, "name"))) {
-        //         $station = $firstStation;
-        //     } else {
-        //         $station = null;
-        //     }
-
-        //     return response()->json($station);
+        return response()->json($station);
     }
 }
